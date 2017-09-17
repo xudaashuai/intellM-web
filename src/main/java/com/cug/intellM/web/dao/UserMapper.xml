@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cug.intellM.web.dao.UserMapper">
-	<select id="findUser" resultType="User">
-		select * from user;
+    <!-- 根据账号获取用户信息 -->
+	<select id="GetUserByLoginName" parameterType="String"  resultType="User">
+		select * from PLATFORM_USER_TBL where LoginName=#{loginName};
 	</select>
-
+	<!-- 插入一个用户信息 -->
+    <insert id="InsertOneUser" parameterType="User" 
+        useGeneratedKeys="true" > 
+        insert into PLATFORM_USER_TBL(Name,Sex,LoginName,Password,User_Type,Dept_ID,State) values(#{Name},#{Sex},#{LoginName},#{Password},#{User_Type},#{Dept_ID},#{State}) 
+    </insert>
+    <!-- 更新一个用户信息 -->
+    <update id="UpdateUserdata" parameterType="User" >
+        update  PLATFORM_USER_TBL set Name=#{Name},Sex=#{Sex},Password=#{Password},User_Type=#{User_Type},Dept_ID=#{Dept_ID},State=#{State} where LoginName=#{LoginName}
+    </update>
+	
+	
 </mapper>
