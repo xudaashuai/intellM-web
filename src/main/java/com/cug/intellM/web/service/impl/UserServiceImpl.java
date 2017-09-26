@@ -23,23 +23,35 @@ public class UserServiceImpl implements UserService
 
 	
 	
-	//Serviceå±‚ åˆ©ç”¨daoå±‚æä¾›çš„åŸºæœ¬åŠŸèƒ½     ç»„ç»‡æˆæ›´ä¸ºä¸°å¯Œçš„æœåŠ¡
+	//Service²ã ÀûÓÃdao²ãÌá¹©µÄ»ù±¾¹¦ÄÜ     ×éÖ¯³É¸üÎª·á¸»µÄ·şÎñ
 	@Autowired
-	private UserMapper userMapper;//ç”¨æˆ·åŸºæœ¬ä¿¡æ¯
-	private UserSourceMapper userSource;//ç”¨æˆ·-æ•°æ®æº
-	private ETLDataSourceMapper ETLDataSource;//æ•°æ®æº
-	private ETLMapper ETL;//ETLè§„åˆ™
-	private UserStrategyMapper userETL;//ç”¨æˆ·-ETLè§„åˆ™
-	private DataCheckRuleMapper dataCheckRule;//æ£€æŸ¥è§„åˆ™
-	private StrategyCheckMapper ETLcheckRule;//ETL-æ£€æŸ¥è§„åˆ™
+	private UserMapper userMapper;//ÓÃ»§»ù±¾ĞÅÏ¢
+	
+	@Autowired
+	private UserSourceMapper userSource;//ÓÃ»§-Êı¾İÔ´
+	@Autowired
+	private ETLDataSourceMapper ETLDataSource;//Êı¾İÔ´
+	
+	@Autowired
+	private UserStrategyMapper userETL;//ÓÃ»§-ETL¹æÔò
+	@Autowired
+	private ETLMapper ETL;//ETL¹æÔò
+	
+
 	
 	
-	//æ£€æŸ¥è´¦å·æ˜¯å¦å·²ç»å­˜åœ¨
+	@Autowired
+	private StrategyTransformMapper ETLDataTrans;//ETL²ßÂÔ---Êı¾İ×ª»»¹æÔò
+	@Autowired
+	private TransformRuleMapper transformRule;//¼ì²é¹æÔò
+	
+	
+	//¼ì²éÕËºÅÊÇ·ñÒÑ¾­´æÔÚ
 
 	public boolean checkloginName(String loginName)
 	{
 		
-		//æ„é€ æŸ¥è¯¢æ¡ä»¶
+		//¹¹Ôì²éÑ¯Ìõ¼ş
 		    UserExample itemsExample = new UserExample();
 	        itemsExample.or().andLoginnameEqualTo(loginName);
 	        List<User> users;
@@ -48,16 +60,16 @@ public class UserServiceImpl implements UserService
 	        	users=userMapper.selectByExample(itemsExample);
 	        }catch(Exception e)
 	        {
-	        	return true;    //å¼‚å¸¸å¤„ç†
+	        	return true;    //Òì³£´¦Àí
 	        }
 	        if(users.size()==0)
-	        	return false;    //è´¦å·æœªè¢«æ³¨å†Œ
+	        	return false;    //ÕËºÅÎ´±»×¢²á
 	        else
-	        	return true;      //è´¦å·å·²è¢«æ³¨å†Œ
+	        	return true;      //ÕËºÅÒÑ±»×¢²á
 	 
 	}
 	
-	//æ£€æŸ¥ç”¨æˆ·è´¦å· å¯†ç æ˜¯å¦æ­£ç¡®
+	//¼ì²éÓÃ»§ÕËºÅ ÃÜÂëÊÇ·ñÕıÈ·
 	
 	
 	public boolean checkPassword(String loginName,String Password)
@@ -73,17 +85,17 @@ public class UserServiceImpl implements UserService
 	            
 	        }catch(Exception e)
 	        {
-	        	return false;  //å‡ºç°å¼‚å¸¸è¿”å›false
+	        	return false;  //³öÏÖÒì³£·µ»Øfalse
 	        }
 	        
 	        if(users.size()==0)
 	        	return false;    
 	        else
-	        	return true;      //éªŒè¯æˆåŠŸ
+	        	return true;      //ÑéÖ¤³É¹¦
 		
 	}
 	
-	//æ ¹æ®è´¦å· è·å–ID  å¤±è´¥è¿”å›-1
+	//¸ù¾İÕËºÅ »ñÈ¡ID  Ê§°Ü·µ»Ø-1
 	
 	public int getUserID(String loginName)
 	{
@@ -96,7 +108,7 @@ public class UserServiceImpl implements UserService
         return users.get(0).getUserId();    
 	}
 	
-	//æ£€æŸ¥ç”¨æˆ·æ˜¯å¦å·²ç»ç™»é™†
+	//¼ì²éÓÃ»§ÊÇ·ñÒÑ¾­µÇÂ½
 	public boolean IsLogin(String loginName)
 	{
 
@@ -117,14 +129,14 @@ public class UserServiceImpl implements UserService
         	if(users.get(0).getState()==0)
         		return false;
         	else
-        		return true;   //å·²ç»ç™»é™†
+        		return true;   //ÒÑ¾­µÇÂ½
         	
         }
        
 		
 	}
 	
-	//è®¾ç½®ç”¨æˆ·ç™»é™†çŠ¶æ€ï¼ˆæœªç™»å½•0  å·²ç»ç™»é™†1ï¼‰  è®¾ç½®å¤±è´¥è¿”å›false
+	//ÉèÖÃÓÃ»§µÇÂ½×´Ì¬£¨Î´µÇÂ¼0  ÒÑ¾­µÇÂ½1£©  ÉèÖÃÊ§°Ü·µ»Øfalse
 	public boolean setState(String loginname,int thestate)
 	{
 		  int userID=this.getUserID(loginname);
@@ -142,7 +154,7 @@ public class UserServiceImpl implements UserService
 		  return true;
 		
 	}
-	//éªŒè¯æˆåŠŸåï¼Œè°ƒç”¨æ­¤å‡½æ•°è·å–ç”¨æˆ·ç±»å‹ 0 æ™®é€šç”¨æˆ· 1 ç®¡ç†å‘˜
+	//ÑéÖ¤³É¹¦ºó£¬µ÷ÓÃ´Ëº¯Êı»ñÈ¡ÓÃ»§ÀàĞÍ 0 ÆÕÍ¨ÓÃ»§ 1 ¹ÜÀíÔ±
 	
 	public int getUser_Type(String loginName)
 	{
@@ -160,16 +172,17 @@ public class UserServiceImpl implements UserService
 	/*
 	 * 
 	 * 
-	ç”¨æˆ·åŸºæœ¬ä¿¡æ¯ç®¡ç†
+	ÓÃ»§»ù±¾ĞÅÏ¢¹ÜÀí
 	 */
 	
 	
-	//æ ¹æ®è´¦å·è·å–ç”¨æˆ·åŸºæœ¬ä¿¡æ¯  ä»¥Userè¿”å›
+	//¸ù¾İÕËºÅ»ñÈ¡ÓÃ»§»ù±¾ĞÅÏ¢  ÒÔUser·µ»Ø
 	
 	public User getUserByLoginName(String loginname)
 	{
 		
 		    UserExample itemsExample = new UserExample();
+		    itemsExample.createCriteria().andLoginnameEqualTo(loginname);
 		    List<User> users;
 	        try
 	        {
@@ -186,11 +199,11 @@ public class UserServiceImpl implements UserService
 		
 		
 	
-	//æ–°å¢ä¸€ä¸ªæ™®é€šç”¨æˆ·   å¤±è´¥è¿”å›false
+	//ĞÂÔöÒ»¸öÆÕÍ¨ÓÃ»§   Ê§°Ü·µ»Øfalse
 	
 	public boolean insertUser(String Name,int Sex,String LoginName,String password,String Dept_ID)
 	{
-		//è‹¥å·²ç»å­˜åœ¨ è¿”å›false
+		//ÈôÒÑ¾­´æÔÚ ·µ»Øfalse
 				if(this.checkloginName(LoginName)==true)
 					return false;
 				User newuser=new User();
@@ -199,7 +212,7 @@ public class UserServiceImpl implements UserService
 				newuser.setLoginname(LoginName);
 				newuser.setPassword(password);
 				newuser.setDeptId(Dept_ID);
-				newuser.setUserType(0);  //0æ™®é€šç”¨æˆ·
+				newuser.setUserType(0);  //0ÆÕÍ¨ÓÃ»§
 				int result=0;
 				try
 				{
@@ -214,12 +227,12 @@ public class UserServiceImpl implements UserService
 		
 		
 	}
-	//æ–°å¢ä¸€ä¸ªç®¡ç†å‘˜    å¤±è´¥è¿”å›false
+	//ĞÂÔöÒ»¸ö¹ÜÀíÔ±    Ê§°Ü·µ»Øfalse
 	
 	public boolean insertAdministrator(String Name,int Sex,String LoginName,String password,String Dept_ID)
 	{
 		
-		      //è‹¥å·²ç»å­˜åœ¨ è¿”å›false
+		      //ÈôÒÑ¾­´æÔÚ ·µ»Øfalse
 				if(this.checkloginName(LoginName)==true)
 					return false;
 				User newuser=new User();
@@ -228,7 +241,7 @@ public class UserServiceImpl implements UserService
 				newuser.setLoginname(LoginName);
 				newuser.setPassword(password);
 				newuser.setDeptId(Dept_ID);
-				newuser.setUserType(1);  //0æ™®é€šç”¨æˆ·
+				newuser.setUserType(1);  //0ÆÕÍ¨ÓÃ»§
 				int result=0;
 				try
 				{
@@ -244,21 +257,21 @@ public class UserServiceImpl implements UserService
 	}
 	
 	
-	//ä¿®æ”¹æŒ‡å®šè´¦å·çš„æ˜µç§°   å¤±è´¥è¿”å›false
+	//ĞŞ¸ÄÖ¸¶¨ÕËºÅµÄêÇ³Æ   Ê§°Ü·µ»Øfalse
 	public boolean updateName(String loginname,String newname)
 	{
-		//è‹¥è´¦å·ä¸å­˜åœ¨ è¿”å›false
+		//ÈôÕËºÅ²»´æÔÚ ·µ»Øfalse
 		if(this.checkloginName(loginname)==false)
 			return false;
 		
-		//è®¾ç½®æ›´æ–°æ¡ä»¶
+		//ÉèÖÃ¸üĞÂÌõ¼ş
 		User user=new User();
 		user.setName(newname);
 		UserExample itemsExample = new UserExample();
 	    itemsExample.or().andLoginnameEqualTo(loginname);
 	    try
 	    {
-	    	userMapper.updateByExampleSelective(user, itemsExample);   //åªæ›´æ–°Nameå­—æ®µ
+	    	userMapper.updateByExampleSelective(user, itemsExample);   //Ö»¸üĞÂName×Ö¶Î
 	    }catch(Exception e)
 	    {
 	    	return false;
@@ -267,43 +280,43 @@ public class UserServiceImpl implements UserService
 		
 	}
 	
-	//ä¿®æ”¹å¯†ç   å¤±è´¥è¿”å›false
+	//ĞŞ¸ÄÃÜÂë  Ê§°Ü·µ»Øfalse
 	public boolean updatePassword(String loginname,String password)
 	{
 
-		       //è‹¥è´¦å·ä¸å­˜åœ¨ è¿”å›false
+		       //ÈôÕËºÅ²»´æÔÚ ·µ»Øfalse
 				if(this.checkloginName(loginname)==false)
 					return false;
 				
-				//è®¾ç½®æ›´æ–°æ¡ä»¶
+				//ÉèÖÃ¸üĞÂÌõ¼ş
 				User user=new User();
 				user.setPassword(password);
 				UserExample itemsExample = new UserExample();
 			    itemsExample.or().andLoginnameEqualTo(loginname);
 			    try
 			    {
-			    	userMapper.updateByExampleSelective(user, itemsExample);   //åªæ›´æ–°Passwordå­—æ®µ
+			    	userMapper.updateByExampleSelective(user, itemsExample);   //Ö»¸üĞÂPassword×Ö¶Î
 			    }catch(Exception e)
 			    {
 			    	return false;
 			    }
 				return true;
 	}
-	//ä¿®æ”¹ç”¨æˆ·éƒ¨åˆ†ä¿¡æ¯
+	//ĞŞ¸ÄÓÃ»§²¿·ÖĞÅÏ¢
 	public boolean updateUserData(String loginname,User user)
 	{
 
-		       //è‹¥è´¦å·ä¸å­˜åœ¨ è¿”å›false
+		       //ÈôÕËºÅ²»´æÔÚ ·µ»Øfalse
 				if(this.checkloginName(loginname)==false)
 					return false;
 				
-				//è®¾ç½®æ›´æ–°æ¡ä»¶
+				//ÉèÖÃ¸üĞÂÌõ¼ş
 				
 				UserExample itemsExample = new UserExample();
 			    itemsExample.or().andLoginnameEqualTo(loginname);
 			    try
 			    {
-			    	userMapper.updateByExampleSelective(user, itemsExample);   //åªæ›´æ–°Userä¸ä¸ºNullå­—æ®µ
+			    	userMapper.updateByExampleSelective(user, itemsExample);   //Ö»¸üĞÂUser²»ÎªNull×Ö¶Î
 			    }catch(Exception e)
 			    {
 			    	return false;
@@ -315,323 +328,9 @@ public class UserServiceImpl implements UserService
 	
 	
 	
-	/*
-	 * 
-	 * 
-	 ç”¨æˆ·-æ•°æ®æºå…·ä½“å®ç°
-	 
-	 
-	 */
 	
-	
-	
-	
-	
-	
-    //æŒ‡å®šç”¨æˆ·  æ–°å¢ETLæ•°æ®æº   å¤±è´¥è¿”å›false   ï¼ˆä¸ç”¨æŒ‡å®šETLSourceä¸»å¥ --è‡ªå¢ä¸»é”®ï¼‰
-	public boolean insertETLSource(String loginname, ETLDataSource etlSource) 
-	{
-		System.out.print(loginname);
-		//è‹¥è´¦å·ä¸å­˜åœ¨ è¿”å›false
-		if(this.checkloginName(loginname)==false)
-		{
-			
-			System.out.print("æ— æ­¤ç”¨æˆ·ï¼Ÿï¼Ÿ");
-			return false;
-		}
-		//åœ¨æ•°æ®æºè¡¨ä¸­æ’å…¥è¯¥æ•°æ®æº
-		System.out.print(etlSource.getUrl());
-		int SourceID=0;
-		try
-		{
-		      SourceID= ETLDataSource.insertSelective(etlSource);
-		      
-		}catch(Exception e)
-		{
-			
-			System.out.print("å‡ºç°sqlå¼‚å¸¸");
-			System.out.print(e);
-			return false;
-		}
-		//åœ¨ç”¨æˆ·-æ•°æ®æºè¡¨ä¸­æ’å…¥è®°å½•
-		UserSource newUserSource=new UserSource();
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-		{
-			System.out.print("æ— æ­¤ç”¨æˆ·ï¼Ÿ");
-		
-			return false;
-		}
-		newUserSource.setUserid(theUserID);
-		newUserSource.setSourceid(SourceID);
-		try
-		{
-		       userSource.insertSelective(newUserSource);
-		}catch(Exception e)
-		{
-			System.out.print("æ’å…¥å¼‚å¸¸");
-			return false;
-		}
-		return true;
-			
-	}
-	
-	//è¿”å›æŒ‡å®šç”¨æˆ·æ‰€æœ‰æ•°æ®æº  List<ETLSource>
-	public List<ETLDataSource> getETLDataSource(String loginname)
-	{
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return null;
-		//åœ¨ ç”¨æˆ·-æ•°æ®æºè¡¨ä¸­æŸ¥å‡ºæ‰€æœ‰ç”¨æˆ·æ•°æ®æºid
-		UserSourceExample oneExample=new UserSourceExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		List<UserSource> sourceIDs;
-		try
-		{
-			sourceIDs=userSource.selectByExample(oneExample);
-		}catch(Exception e)
-		{
-			System.out.print("å‡ºç°å¼‚å¸¸");
-			return null;
-		}
-		List<ETLDataSource> Sources=new ArrayList<ETLDataSource>();
-		for(int i=0;i<sourceIDs.size();i++)
-		{
-			Sources.add(ETLDataSource.selectByPrimaryKey( sourceIDs.get(i).getSourceid()));
-		}
-		return  Sources;
-			
-	}
-	
-	//ç”¨æˆ·åˆ é™¤æŒ‡å®šidçš„æ•°æ®æº
-	public boolean deleteETLDataSource(String loginname,int SourceID)
-	{
-
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return false;
-		
-		//éªŒè¯æ˜¯å¦å­˜åœ¨è¯¥æ•°æ®æº
-		//åœ¨ ç”¨æˆ·-æ•°æ®æºè¡¨ä¸­æŸ¥å‡ºæ‰€æœ‰ç”¨æˆ·æ•°æ®æºid
-		UserSourceExample oneExample=new UserSourceExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		oneExample.or().andSourceidEqualTo(SourceID);
-		List<UserSource> sourceIDs;
-		try
-		{
-			sourceIDs=userSource.selectByExample(oneExample);
-			
-		}catch(Exception e)
-		{
-			System.out.print("å‡ºç°å¼‚å¸¸-_-");
-			return false;
-		}
-		if(sourceIDs.size()==0)
-			return false;
-		//å…ˆåˆ é™¤ æ•°æ®æºè¡¨ä¸­æŒ‡å®š SourceIDçš„æ•°æ®
-		
-		try
-		{
-			ETLDataSource.deleteByPrimaryKey(sourceIDs.get(0).getSourceid());
-		}catch(Exception e)
-		{
-			return false;
-		}
-		
-		//åˆ é™¤ç”¨æˆ·-æ•°æ®æºè¡¨ä¸­ æ•°æ®
-		try
-		{
-			userSource.deleteByExample(oneExample);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		return true;
-			
-	}
-	
-	//ç”¨æˆ·ä¿®æ”¹æŒ‡å®šæ•°æ®æº  æŒ‡å®šä¿®æ”¹åçš„ETLSource
-	public boolean updateETLDataSource(String loginname,ETLDataSource thesource)
-	{
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return false;
-		//éªŒè¯è¯¥ç”¨æˆ·æ˜¯å¦å­˜åœ¨ æŒ‡å®šæ•°æ®æº
-		UserSourceExample oneExample=new UserSourceExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		oneExample.or().andSourceidEqualTo(thesource.getId());
-		List<UserSource> sourceIDs;
-		try
-		{
-			sourceIDs=userSource.selectByExample(oneExample);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		if(sourceIDs.size()==0)
-			return false;
-		
-		//ä¿®æ”¹æŒ‡å®šidçš„æ•°æ®æº	
-		try
-		{
-			ETLDataSource.updateByPrimaryKeySelective(thesource);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		
-		return true;
-		
-	}
-	
-	/*
-	
-	
-	ç”¨æˆ·-ETLè§„åˆ™  å…·ä½“å®ç°
-	
-	
-	 */
-
-	public boolean insertETL(String loginname, ETL etl) 
-	{
-		if(this.checkloginName(loginname)==false)
-			return false;
-		if(etl==null)
-			System.out.print("ç©ºå¯¹è±¡");
-		//åœ¨ETLè¡¨ä¸­æ’å…¥è¯¥ETLè§„åˆ™
-		int ETLID=0;
-		try
-		{
-		    ETLID= ETL.insertSelective(etl);
-		}catch(Exception e)
-		{
-			System.out.print("å¼‚å¸¸ï¼š"+e);
-			return false;
-		}
-		//åœ¨ç”¨æˆ·-ETLè¡¨ä¸­æ’å…¥è®°å½•
-		UserStrategy newUserETL=new UserStrategy();
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return false;
-		//é…ç½®ç”¨æˆ·-ETLä¿¡æ¯
-		newUserETL.setUserid(theUserID);
-		newUserETL.setStrategyid(ETLID);
-		try
-		{
-		       userETL.insertSelective(newUserETL);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		return true;
-				
-	}
-
-	public List<ETL> getETL(String loginname)
-	{
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return null;
-		//åœ¨ ç”¨æˆ·-ETLè¡¨ä¸­æŸ¥å‡ºæ‰€æœ‰ç”¨æˆ·ETLè§„åˆ™id
-		UserStrategyExample oneExample=new UserStrategyExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		List<UserStrategy> userETLs;
-		try
-		{
-			userETLs=userETL.selectByExample(oneExample);
-		}catch(Exception e)
-		{
-			return null;
-		}
-		List<ETL> myETLS=new ArrayList<ETL>();
-		//ä»ETLç­–ç•¥è¡¨ä¸­ä¾æ¬¡è¯»å–å‡º æ‰€æœ‰å±äºè¯¥ç”¨æˆ·çš„ETLè§„åˆ™
-		for(int i=0;i<userETLs.size();i++)
-		{
-			myETLS.add(ETL.selectByPrimaryKey( userETLs.get(i).getStrategyid()));
-		}
-		return  myETLS;
-	}
-
-	public boolean deleteETL(String loginname, int etlID) 
-	{
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return false;
-		
-		//éªŒè¯æ˜¯å¦å­˜åœ¨è¯¥ETLè§„åˆ™
-		//åœ¨ ç”¨æˆ·-ETLè¡¨ä¸­æŸ¥å‡ºç”¨æˆ·ETLçš„id
-		UserStrategyExample oneExample=new UserStrategyExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		oneExample.or().andStrategyidEqualTo(etlID);
-		List<UserStrategy> ETLIDs;
-		try
-		{
-			ETLIDs=userETL.selectByExample(oneExample);
-			
-		}catch(Exception e)
-		{
-			return false;
-		}
-		if(ETLIDs.size()==0)
-			return false;
-		//å…ˆåˆ é™¤ETLè¡¨ä¸­æŒ‡å®š ETLIDçš„æ•°æ®
-		
-		try
-		{
-			ETL.deleteByPrimaryKey(ETLIDs.get(0).getStrategyid());
-		}catch(Exception e)
-		{
-			return false;
-		}
-		
-		//åˆ é™¤ç”¨æˆ·-ETLè¡¨ä¸­ æ•°æ®
-		try
-		{
-			userETL.deleteByExample(oneExample);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		return true;
-	}
-
-	public boolean updateETL(String loginname, ETL theEtl) 
-	{
-		
-		int theUserID=getUserID(loginname);
-		if(theUserID==-1)
-			return false;
-		//éªŒè¯è¯¥ç”¨æˆ·æ˜¯å¦å­˜åœ¨ æŒ‡å®šæ•°æ®æº
-		UserStrategyExample oneExample=new UserStrategyExample();
-		oneExample.or().andUseridEqualTo(theUserID);
-		oneExample.or().andStrategyidEqualTo(theEtl.getId());
-		List<UserStrategy> etlIDs;
-		try
-		{
-			etlIDs=userETL.selectByExample(oneExample);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		if(etlIDs.size()==0)  //ä¸å­˜åœ¨è¿™æ¡ETLè§„åˆ™
-			return false;
-		
-		//ä¿®æ”¹æŒ‡å®šidçš„æ•°æ®æº	
-		try
-		{
-			ETL.updateByPrimaryKeySelective(theEtl);
-		}catch(Exception e)
-		{
-			return false;
-		}
-		
-		return true;
-
-	}
-
 
 	
 	
 
 }
-

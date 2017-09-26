@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.TransformRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.TransformRule" >
+    <id column="Trans_Rule" property="transRule" jdbcType="INTEGER" />
+    <result column="Trans_Type" property="transType" jdbcType="INTEGER" />
+    <result column="TableField" property="tablefield" jdbcType="VARCHAR" />
+    <result column="Judge_formula" property="judgeFormula" jdbcType="VARCHAR" />
+    <result column="Result_formula" property="resultFormula" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Trans_Rule, Trans_Type, TableField, Judge_formula, Result_formula
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.TransformRuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TRANSFORM_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRANSFORM_RULE_TBL
+    where Trans_Rule = #{transRule,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TRANSFORM_RULE_TBL
+    where Trans_Rule = #{transRule,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.TransformRuleExample" >
+    delete from TRANSFORM_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.TransformRule" >
+    <selectKey keyProperty="transRule" order="AFTER" resultType="java.lang.Integer">
+            <!-- 返回自增主键-->
+            SELECT LAST_INSERT_ID()
+     </selectKey>
+    insert into TRANSFORM_RULE_TBL (Trans_Rule, Trans_Type, TableField, 
+      Judge_formula, Result_formula)
+    values (#{transRule,jdbcType=INTEGER}, #{transType,jdbcType=INTEGER}, #{tablefield,jdbcType=VARCHAR}, 
+      #{judgeFormula,jdbcType=VARCHAR}, #{resultFormula,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.TransformRule" >
+  <selectKey keyProperty="transRule" order="AFTER" resultType="java.lang.Integer">
+            <!-- 返回自增主键-->
+            SELECT LAST_INSERT_ID()
+     </selectKey>
+    insert into TRANSFORM_RULE_TBL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transRule != null" >
+        Trans_Rule,
+      </if>
+      <if test="transType != null" >
+        Trans_Type,
+      </if>
+      <if test="tablefield != null" >
+        TableField,
+      </if>
+      <if test="judgeFormula != null" >
+        Judge_formula,
+      </if>
+      <if test="resultFormula != null" >
+        Result_formula,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transRule != null" >
+        #{transRule,jdbcType=INTEGER},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="tablefield != null" >
+        #{tablefield,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeFormula != null" >
+        #{judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFormula != null" >
+        #{resultFormula,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.TransformRuleExample" resultType="java.lang.Integer" >
+    select count(*) from TRANSFORM_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TRANSFORM_RULE_TBL
+    <set >
+      <if test="record.transRule != null" >
+        Trans_Rule = #{record.transRule,jdbcType=INTEGER},
+      </if>
+      <if test="record.transType != null" >
+        Trans_Type = #{record.transType,jdbcType=INTEGER},
+      </if>
+      <if test="record.tablefield != null" >
+        TableField = #{record.tablefield,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeFormula != null" >
+        Judge_formula = #{record.judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultFormula != null" >
+        Result_formula = #{record.resultFormula,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TRANSFORM_RULE_TBL
+    set Trans_Rule = #{record.transRule,jdbcType=INTEGER},
+      Trans_Type = #{record.transType,jdbcType=INTEGER},
+      TableField = #{record.tablefield,jdbcType=VARCHAR},
+      Judge_formula = #{record.judgeFormula,jdbcType=VARCHAR},
+      Result_formula = #{record.resultFormula,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.TransformRule" >
+    update TRANSFORM_RULE_TBL
+    <set >
+      <if test="transType != null" >
+        Trans_Type = #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="tablefield != null" >
+        TableField = #{tablefield,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeFormula != null" >
+        Judge_formula = #{judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFormula != null" >
+        Result_formula = #{resultFormula,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Trans_Rule = #{transRule,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.TransformRule" >
+    update TRANSFORM_RULE_TBL
+    set Trans_Type = #{transType,jdbcType=INTEGER},
+      TableField = #{tablefield,jdbcType=VARCHAR},
+      Judge_formula = #{judgeFormula,jdbcType=VARCHAR},
+      Result_formula = #{resultFormula,jdbcType=VARCHAR}
+    where Trans_Rule = #{transRule,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -109,6 +109,7 @@
 }
 .nav-tabs>li{
     display: flex;
+    margin-bottom: -3px;
     align-items: center;
     padding-right: 4px;
     white-space: nowrap;

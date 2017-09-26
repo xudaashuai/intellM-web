@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.DataCheckRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.DataCheckRule" >
+    <id column="CheckRule" property="checkrule" jdbcType="INTEGER" />
+    <result column="CheckType" property="checktype" jdbcType="INTEGER" />
+    <result column="TableName" property="tablename" jdbcType="VARCHAR" />
+    <result column="FieldName" property="fieldname" jdbcType="VARCHAR" />
+    <result column="Judge_formula" property="judgeFormula" jdbcType="VARCHAR" />
+    <result column="Result_formula" property="resultFormula" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CheckRule, CheckType, TableName, FieldName, Judge_formula, Result_formula
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.DataCheckRuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from DATA_CHECK_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DATA_CHECK_RULE_TBL
+    where CheckRule = #{checkrule,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DATA_CHECK_RULE_TBL
+    where CheckRule = #{checkrule,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.DataCheckRuleExample" >
+    delete from DATA_CHECK_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.DataCheckRule" >
+    insert into DATA_CHECK_RULE_TBL (CheckRule, CheckType, TableName, 
+      FieldName, Judge_formula, Result_formula
+      )
+    values (#{checkrule,jdbcType=INTEGER}, #{checktype,jdbcType=INTEGER}, #{tablename,jdbcType=VARCHAR}, 
+      #{fieldname,jdbcType=VARCHAR}, #{judgeFormula,jdbcType=VARCHAR}, #{resultFormula,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.DataCheckRule" >
+    insert into DATA_CHECK_RULE_TBL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="checkrule != null" >
+        CheckRule,
+      </if>
+      <if test="checktype != null" >
+        CheckType,
+      </if>
+      <if test="tablename != null" >
+        TableName,
+      </if>
+      <if test="fieldname != null" >
+        FieldName,
+      </if>
+      <if test="judgeFormula != null" >
+        Judge_formula,
+      </if>
+      <if test="resultFormula != null" >
+        Result_formula,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="checkrule != null" >
+        #{checkrule,jdbcType=INTEGER},
+      </if>
+      <if test="checktype != null" >
+        #{checktype,jdbcType=INTEGER},
+      </if>
+      <if test="tablename != null" >
+        #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldname != null" >
+        #{fieldname,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeFormula != null" >
+        #{judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFormula != null" >
+        #{resultFormula,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.DataCheckRuleExample" resultType="java.lang.Integer" >
+    select count(*) from DATA_CHECK_RULE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update DATA_CHECK_RULE_TBL
+    <set >
+      <if test="record.checkrule != null" >
+        CheckRule = #{record.checkrule,jdbcType=INTEGER},
+      </if>
+      <if test="record.checktype != null" >
+        CheckType = #{record.checktype,jdbcType=INTEGER},
+      </if>
+      <if test="record.tablename != null" >
+        TableName = #{record.tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldname != null" >
+        FieldName = #{record.fieldname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeFormula != null" >
+        Judge_formula = #{record.judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultFormula != null" >
+        Result_formula = #{record.resultFormula,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update DATA_CHECK_RULE_TBL
+    set CheckRule = #{record.checkrule,jdbcType=INTEGER},
+      CheckType = #{record.checktype,jdbcType=INTEGER},
+      TableName = #{record.tablename,jdbcType=VARCHAR},
+      FieldName = #{record.fieldname,jdbcType=VARCHAR},
+      Judge_formula = #{record.judgeFormula,jdbcType=VARCHAR},
+      Result_formula = #{record.resultFormula,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.DataCheckRule" >
+    update DATA_CHECK_RULE_TBL
+    <set >
+      <if test="checktype != null" >
+        CheckType = #{checktype,jdbcType=INTEGER},
+      </if>
+      <if test="tablename != null" >
+        TableName = #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldname != null" >
+        FieldName = #{fieldname,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeFormula != null" >
+        Judge_formula = #{judgeFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFormula != null" >
+        Result_formula = #{resultFormula,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CheckRule = #{checkrule,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.DataCheckRule" >
+    update DATA_CHECK_RULE_TBL
+    set CheckType = #{checktype,jdbcType=INTEGER},
+      TableName = #{tablename,jdbcType=VARCHAR},
+      FieldName = #{fieldname,jdbcType=VARCHAR},
+      Judge_formula = #{judgeFormula,jdbcType=VARCHAR},
+      Result_formula = #{resultFormula,jdbcType=VARCHAR}
+    where CheckRule = #{checkrule,jdbcType=INTEGER}
+  </update>
+</mapper>

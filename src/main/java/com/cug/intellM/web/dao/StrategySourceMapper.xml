@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.StrategySourceMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.StrategySourceKey" >
+    <id column="SourceID" property="sourceid" jdbcType="INTEGER" />
+    <id column="StrategyID" property="strategyid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SourceID, StrategyID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.StrategySourceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from STRATEGY_SOURCE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cug.intellM.web.po.StrategySourceKey" >
+    delete from STRATEGY_SOURCE_TBL
+    where SourceID = #{sourceid,jdbcType=INTEGER}
+      and StrategyID = #{strategyid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.StrategySourceExample" >
+    delete from STRATEGY_SOURCE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.StrategySourceKey" >
+    insert into STRATEGY_SOURCE_TBL (SourceID, StrategyID)
+    values (#{sourceid,jdbcType=INTEGER}, #{strategyid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.StrategySourceKey" >
+    insert into STRATEGY_SOURCE_TBL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sourceid != null" >
+        SourceID,
+      </if>
+      <if test="strategyid != null" >
+        StrategyID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sourceid != null" >
+        #{sourceid,jdbcType=INTEGER},
+      </if>
+      <if test="strategyid != null" >
+        #{strategyid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.StrategySourceExample" resultType="java.lang.Integer" >
+    select count(*) from STRATEGY_SOURCE_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update STRATEGY_SOURCE_TBL
+    <set >
+      <if test="record.sourceid != null" >
+        SourceID = #{record.sourceid,jdbcType=INTEGER},
+      </if>
+      <if test="record.strategyid != null" >
+        StrategyID = #{record.strategyid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update STRATEGY_SOURCE_TBL
+    set SourceID = #{record.sourceid,jdbcType=INTEGER},
+      StrategyID = #{record.strategyid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

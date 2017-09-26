@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.ETLMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.ETL" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="StrategyName" property="strategyname" jdbcType="VARCHAR" />
+    <result column="ExtractResource" property="extractresource" jdbcType="INTEGER" />
+    <result column="ExtratDetails" property="extratdetails" jdbcType="VARCHAR" />
+    <result column="LoadResource" property="loadresource" jdbcType="INTEGER" />
+    <result column="LoadDetails" property="loaddetails" jdbcType="VARCHAR" />
+    <result column="ExecutionCycle" property="executioncycle" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, StrategyName, ExtractResource, ExtratDetails, LoadResource, LoadDetails, ExecutionCycle, 
+    Remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.ETLExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ETL_STRATEGY_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ETL_STRATEGY_TBL
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ETL_STRATEGY_TBL
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.ETLExample" >
+    delete from ETL_STRATEGY_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.ETL" >
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            <!-- 返回自增主键-->
+            SELECT LAST_INSERT_ID()
+     </selectKey>
+    insert into ETL_STRATEGY_TBL (ID, StrategyName, ExtractResource, 
+      ExtratDetails, LoadResource, LoadDetails, 
+      ExecutionCycle, Remark)
+    values (#{id,jdbcType=INTEGER}, #{strategyname,jdbcType=VARCHAR}, #{extractresource,jdbcType=INTEGER}, 
+      #{extratdetails,jdbcType=VARCHAR}, #{loadresource,jdbcType=INTEGER}, #{loaddetails,jdbcType=VARCHAR}, 
+      #{executioncycle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.ETL" >
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            <!-- 返回自增主键-->
+            SELECT LAST_INSERT_ID()
+     </selectKey>
+    insert into ETL_STRATEGY_TBL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="strategyname != null" >
+        StrategyName,
+      </if>
+      <if test="extractresource != null" >
+        ExtractResource,
+      </if>
+      <if test="extratdetails != null" >
+        ExtratDetails,
+      </if>
+      <if test="loadresource != null" >
+        LoadResource,
+      </if>
+      <if test="loaddetails != null" >
+        LoadDetails,
+      </if>
+      <if test="executioncycle != null" >
+        ExecutionCycle,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="strategyname != null" >
+        #{strategyname,jdbcType=VARCHAR},
+      </if>
+      <if test="extractresource != null" >
+        #{extractresource,jdbcType=INTEGER},
+      </if>
+      <if test="extratdetails != null" >
+        #{extratdetails,jdbcType=VARCHAR},
+      </if>
+      <if test="loadresource != null" >
+        #{loadresource,jdbcType=INTEGER},
+      </if>
+      <if test="loaddetails != null" >
+        #{loaddetails,jdbcType=VARCHAR},
+      </if>
+      <if test="executioncycle != null" >
+        #{executioncycle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.ETLExample" resultType="java.lang.Integer" >
+    select count(*) from ETL_STRATEGY_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ETL_STRATEGY_TBL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.strategyname != null" >
+        StrategyName = #{record.strategyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extractresource != null" >
+        ExtractResource = #{record.extractresource,jdbcType=INTEGER},
+      </if>
+      <if test="record.extratdetails != null" >
+        ExtratDetails = #{record.extratdetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loadresource != null" >
+        LoadResource = #{record.loadresource,jdbcType=INTEGER},
+      </if>
+      <if test="record.loaddetails != null" >
+        LoadDetails = #{record.loaddetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executioncycle != null" >
+        ExecutionCycle = #{record.executioncycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ETL_STRATEGY_TBL
+    set ID = #{record.id,jdbcType=INTEGER},
+      StrategyName = #{record.strategyname,jdbcType=VARCHAR},
+      ExtractResource = #{record.extractresource,jdbcType=INTEGER},
+      ExtratDetails = #{record.extratdetails,jdbcType=VARCHAR},
+      LoadResource = #{record.loadresource,jdbcType=INTEGER},
+      LoadDetails = #{record.loaddetails,jdbcType=VARCHAR},
+      ExecutionCycle = #{record.executioncycle,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.ETL" >
+    update ETL_STRATEGY_TBL
+    <set >
+      <if test="strategyname != null" >
+        StrategyName = #{strategyname,jdbcType=VARCHAR},
+      </if>
+      <if test="extractresource != null" >
+        ExtractResource = #{extractresource,jdbcType=INTEGER},
+      </if>
+      <if test="extratdetails != null" >
+        ExtratDetails = #{extratdetails,jdbcType=VARCHAR},
+      </if>
+      <if test="loadresource != null" >
+        LoadResource = #{loadresource,jdbcType=INTEGER},
+      </if>
+      <if test="loaddetails != null" >
+        LoadDetails = #{loaddetails,jdbcType=VARCHAR},
+      </if>
+      <if test="executioncycle != null" >
+        ExecutionCycle = #{executioncycle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.ETL" >
+    update ETL_STRATEGY_TBL
+    set StrategyName = #{strategyname,jdbcType=VARCHAR},
+      ExtractResource = #{extractresource,jdbcType=INTEGER},
+      ExtratDetails = #{extratdetails,jdbcType=VARCHAR},
+      LoadResource = #{loadresource,jdbcType=INTEGER},
+      LoadDetails = #{loaddetails,jdbcType=VARCHAR},
+      ExecutionCycle = #{executioncycle,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

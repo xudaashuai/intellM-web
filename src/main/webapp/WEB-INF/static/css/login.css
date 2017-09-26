@@ -3,10 +3,10 @@
     height:3px;
     padding: 0;
     margin: 0;
-    background-color: #ffffff;
+    background-color: transparent;
 }
 ::-webkit-scrollbar-thumb{
-    background-color:#123435;
+    background-color:#1abc9c;
     padding: 0;
     margin: 0;
 }

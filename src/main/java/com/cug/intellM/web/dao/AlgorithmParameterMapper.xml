@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.AlgorithmParameterMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.AlgorithmParameter" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="User_ID" property="userId" jdbcType="INTEGER" />
+    <result column="Model_ID" property="modelId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cug.intellM.web.po.AlgorithmParameter" extends="BaseResultMap" >
+    <result column="Para_Weights" property="paraWeights" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, User_ID, Model_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    Para_Weights
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ALGORITHM_PARAMETER_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ALGORITHM_PARAMETER_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ALGORITHM_PARAMETER_TBL
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ALGORITHM_PARAMETER_TBL
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" >
+    delete from ALGORITHM_PARAMETER_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
+    insert into ALGORITHM_PARAMETER_TBL (ID, User_ID, Model_ID, 
+      Para_Weights)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{modelId,jdbcType=VARCHAR}, 
+      #{paraWeights,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
+    insert into ALGORITHM_PARAMETER_TBL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        User_ID,
+      </if>
+      <if test="modelId != null" >
+        Model_ID,
+      </if>
+      <if test="paraWeights != null" >
+        Para_Weights,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraWeights != null" >
+        #{paraWeights,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" resultType="java.lang.Integer" >
+    select count(*) from ALGORITHM_PARAMETER_TBL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ALGORITHM_PARAMETER_TBL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        User_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelId != null" >
+        Model_ID = #{record.modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paraWeights != null" >
+        Para_Weights = #{record.paraWeights,jdbcType=VARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update ALGORITHM_PARAMETER_TBL
+    set ID = #{record.id,jdbcType=INTEGER},
+      User_ID = #{record.userId,jdbcType=INTEGER},
+      Model_ID = #{record.modelId,jdbcType=VARCHAR},
+      Para_Weights = #{record.paraWeights,jdbcType=VARBINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ALGORITHM_PARAMETER_TBL
+    set ID = #{record.id,jdbcType=INTEGER},
+      User_ID = #{record.userId,jdbcType=INTEGER},
+      Model_ID = #{record.modelId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
+    update ALGORITHM_PARAMETER_TBL
+    <set >
+      <if test="userId != null" >
+        User_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        Model_ID = #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraWeights != null" >
+        Para_Weights = #{paraWeights,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
+    update ALGORITHM_PARAMETER_TBL
+    set User_ID = #{userId,jdbcType=INTEGER},
+      Model_ID = #{modelId,jdbcType=VARCHAR},
+      Para_Weights = #{paraWeights,jdbcType=VARBINARY}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
+    update ALGORITHM_PARAMETER_TBL
+    set User_ID = #{userId,jdbcType=INTEGER},
+      Model_ID = #{modelId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

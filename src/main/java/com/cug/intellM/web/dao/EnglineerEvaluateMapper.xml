@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cug.intellM.web.dao.EnglineerEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.EnglineerEvaluate" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="AVG_EVALUATION" property="avgEvaluation" jdbcType="DOUBLE" />
+    <result column="AVG_ARRIVAL_TIME" property="avgArrivalTime" jdbcType="VARCHAR" />
+    <result column="AVG_REPAIR_TIME" property="avgRepairTime" jdbcType="VARCHAR" />
+    <result column="TROUBLETYPECODE" property="troubletypecode" jdbcType="VARCHAR" />
+    <result column="TOTAL_NUMBER" property="totalNumber" jdbcType="INTEGER" />
+    <result column="SERVICETROUBLENUM" property="servicetroublenum" jdbcType="INTEGER" />
+    <result column="SERVICETYPENUM" property="servicetypenum" jdbcType="INTEGER" />
+    <result column="UNFINISHED" property="unfinished" jdbcType="INTEGER" />
+    <result column="ACTUAL_DISTANCE" property="actualDistance" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NAME, AVG_EVALUATION, AVG_ARRIVAL_TIME, AVG_REPAIR_TIME, TROUBLETYPECODE, TOTAL_NUMBER, 
+    SERVICETROUBLENUM, SERVICETYPENUM, UNFINISHED, ACTUAL_DISTANCE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.EnglineerEvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ENGINEER_EVALUATE_TAB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.EnglineerEvaluateExample" >
+    delete from ENGINEER_EVALUATE_TAB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cug.intellM.web.po.EnglineerEvaluate" >
+    insert into ENGINEER_EVALUATE_TAB (ID, NAME, AVG_EVALUATION, 
+      AVG_ARRIVAL_TIME, AVG_REPAIR_TIME, TROUBLETYPECODE, 
+      TOTAL_NUMBER, SERVICETROUBLENUM, SERVICETYPENUM, 
+      UNFINISHED, ACTUAL_DISTANCE)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{avgEvaluation,jdbcType=DOUBLE}, 
+      #{avgArrivalTime,jdbcType=VARCHAR}, #{avgRepairTime,jdbcType=VARCHAR}, #{troubletypecode,jdbcType=VARCHAR}, 
+      #{totalNumber,jdbcType=INTEGER}, #{servicetroublenum,jdbcType=INTEGER}, #{servicetypenum,jdbcType=INTEGER}, 
+      #{unfinished,jdbcType=INTEGER}, #{actualDistance,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.EnglineerEvaluate" >
+    insert into ENGINEER_EVALUATE_TAB
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="avgEvaluation != null" >
+        AVG_EVALUATION,
+      </if>
+      <if test="avgArrivalTime != null" >
+        AVG_ARRIVAL_TIME,
+      </if>
+      <if test="avgRepairTime != null" >
+        AVG_REPAIR_TIME,
+      </if>
+      <if test="troubletypecode != null" >
+        TROUBLETYPECODE,
+      </if>
+      <if test="totalNumber != null" >
+        TOTAL_NUMBER,
+      </if>
+      <if test="servicetroublenum != null" >
+        SERVICETROUBLENUM,
+      </if>
+      <if test="servicetypenum != null" >
+        SERVICETYPENUM,
+      </if>
+      <if test="unfinished != null" >
+        UNFINISHED,
+      </if>
+      <if test="actualDistance != null" >
+        ACTUAL_DISTANCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avgEvaluation != null" >
+        #{avgEvaluation,jdbcType=DOUBLE},
+      </if>
+      <if test="avgArrivalTime != null" >
+        #{avgArrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="avgRepairTime != null" >
+        #{avgRepairTime,jdbcType=VARCHAR},
+      </if>
+      <if test="troubletypecode != null" >
+        #{troubletypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNumber != null" >
+        #{totalNumber,jdbcType=INTEGER},
+      </if>
+      <if test="servicetroublenum != null" >
+        #{servicetroublenum,jdbcType=INTEGER},
+      </if>
+      <if test="servicetypenum != null" >
+        #{servicetypenum,jdbcType=INTEGER},
+      </if>
+      <if test="unfinished != null" >
+        #{unfinished,jdbcType=INTEGER},
+      </if>
+      <if test="actualDistance != null" >
+        #{actualDistance,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.EnglineerEvaluateExample" resultType="java.lang.Integer" >
+    select count(*) from ENGINEER_EVALUATE_TAB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ENGINEER_EVALUATE_TAB
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgEvaluation != null" >
+        AVG_EVALUATION = #{record.avgEvaluation,jdbcType=DOUBLE},
+      </if>
+      <if test="record.avgArrivalTime != null" >
+        AVG_ARRIVAL_TIME = #{record.avgArrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgRepairTime != null" >
+        AVG_REPAIR_TIME = #{record.avgRepairTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.troubletypecode != null" >
+        TROUBLETYPECODE = #{record.troubletypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNumber != null" >
+        TOTAL_NUMBER = #{record.totalNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.servicetroublenum != null" >
+        SERVICETROUBLENUM = #{record.servicetroublenum,jdbcType=INTEGER},
+      </if>
+      <if test="record.servicetypenum != null" >
+        SERVICETYPENUM = #{record.servicetypenum,jdbcType=INTEGER},
+      </if>
+      <if test="record.unfinished != null" >
+        UNFINISHED = #{record.unfinished,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualDistance != null" >
+        ACTUAL_DISTANCE = #{record.actualDistance,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ENGINEER_EVALUATE_TAB
+    set ID = #{record.id,jdbcType=INTEGER},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      AVG_EVALUATION = #{record.avgEvaluation,jdbcType=DOUBLE},
+      AVG_ARRIVAL_TIME = #{record.avgArrivalTime,jdbcType=VARCHAR},
+      AVG_REPAIR_TIME = #{record.avgRepairTime,jdbcType=VARCHAR},
+      TROUBLETYPECODE = #{record.troubletypecode,jdbcType=VARCHAR},
+      TOTAL_NUMBER = #{record.totalNumber,jdbcType=INTEGER},
+      SERVICETROUBLENUM = #{record.servicetroublenum,jdbcType=INTEGER},
+      SERVICETYPENUM = #{record.servicetypenum,jdbcType=INTEGER},
+      UNFINISHED = #{record.unfinished,jdbcType=INTEGER},
+      ACTUAL_DISTANCE = #{record.actualDistance,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

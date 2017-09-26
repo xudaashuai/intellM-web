@@ -6,6 +6,8 @@
   Time: 20:22
   To change this template use File | Settings | File Templates.
 --%>
+
+<%@ page isELIgnored="false"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -22,85 +24,21 @@
     <link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/login.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
-    <script src="/js/vue.js"></script>
     <link href="/css/main.css" rel="stylesheet">
-</head>
-<body>
-<div class="modal fade" id="addA_Model" tabindex="-1" role="dialog" aria-labelledby="add_model_label">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="add_model_label">请选择一个系统算法作为模板</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确定从该模板添加</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="removeA_Model" tabindex="-1" role="dialog" aria-labelledby="remove_model_label">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="remove_model_label">选择要删除的算法</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">模型</label>
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
 
-                        <label for="" class="col-sm-2 control-label">算法</label>
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-danger">删除</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <script src="/js/vue.js"></script>
+</head>
+<script>
+    let t=${user};
+    if (t===false){
+        isFirst=true;
+        user=null;
+    }else{
+        user=t;
+        isFirst=false
+    }
+</script>
+<body>
 <div id="card2" :class="[{'flipped':!isFirst},'card']">
     <transition name="fade">
         <div class="demo form-bg front" v-if="isFirst">
@@ -139,7 +77,7 @@
                                             </button>
                                             <button class="btn btn-link" type="button" @click="signFlip(1)">注册</button>
                                             <button type="button" tabindex="3" class="btn btn-default"
-                                                    :disabled="!canLogin" id="login" @click="submit('login')">登录
+                                                    :disabled="!canLogin" id="login" @click="submit('login')">{{isLogining?'登录中':'登录'}}
                                             </button>
                                         </div>
                                     </div>
@@ -188,7 +126,7 @@
                                             <button class="btn btn-link" type="button" @click="signFlip(0)">登录</button>
                                             <button type="button" tabindex="4" class="btn btn-default"
                                                     :class="{'disabled':!canReg}"
-                                                    :disabled="!canReg" @click="submit('reg')">注册
+                                                    :disabled="!canReg" @click="submit('reg')">{{isReging?'注册中':'注册'}}
                                             </button>
                                         </div>
                                     </div>
@@ -211,7 +149,7 @@
                                             <button class="btn btn-link" type="button" @click="signFlip(0)">登录</button>
                                             <button class="btn btn-link" type="button" @click="signFlip(1)">注册</button>
                                             <button type="button" tabindex="2" class="btn btn-default"
-                                                    @click="submit('forget')">确定
+                                                    @click="submit('forget')">{{isForgeting?'修改中':'修改'}}
                                             </button>
                                         </div>
                                     </div>
@@ -224,11 +162,12 @@
         </div>
     </transition>
     <transition name="fade">
-        <div v-if="!isFirst" class="main back">
+        <div v-if="!isFirst" class="main back" >
+            <img src @error='loadInfo'>
             <div class="left">
                 <div class="nav-header">
                     <img class="nav-header-img" src="http://www.bootcss.com/p/flat-ui/images/demo/logo-mask.png">
-                    <h5 class="nav-header-name">{{name}}</h5>
+                    <h5 class="nav-header-name">{{user.name}}</h5>
                 </div>
                 <div class="nav-items">
                     <div v-for="(item,index) in menu" class="nav-item">
@@ -265,7 +204,7 @@
                     </div>
                 </div>
                 <div class="nav-footer">
-                    <button class="btn btn-link" @click="flip">退出</button>
+                    <button class="btn btn-link" @click="logout">退出</button>
                 </div>
             </div>
             <div class="right">
@@ -287,7 +226,6 @@
                 </div>
             </div>
         </div>
-
     </transition>
 </div>
 
