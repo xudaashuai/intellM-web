@@ -14,9 +14,7 @@ const root = new Vue({
         pageD: [true, false, false],
         isFlipped: false,
         title: '你好哇',
-        name: 'Admin',
         selected: [-1, -1],
-        src: 'welcome',
         login: {
             username: '',
             password: ''
@@ -36,7 +34,7 @@ const root = new Vue({
         menu: [],
         user: user,
         moals: {},
-        user_paras:{}
+        user_paras: {}
     },
     computed: {
         regUsernameOk: function () {
@@ -167,43 +165,56 @@ const root = new Vue({
         flip: function () {
             this.isFirst = !this.isFirst;
         },
-        loadInfo: function () {
-            this.menu = [
-                {
-                    name: '智能数据分析',
-                    items: [],
-                    isOpen: false
-                }, {
-                    name: '多维度BI可视化',
-                    isOpen: false,
-                    items: [
-                        {name: '通用可视化'},
-                        {name: '定制可视化'},
-                        {name: '多维分析可视化'},
-                        {name: '时空数据可视化'},
-                        {name: '可视化BI仪表盘'}
-                    ]
-                }, {
-                    name: '平台配置',
-                    isOpen: false,
-                    items: [
-                        {name: 'ETL 策略配置',},
-                        {name: '模型算法配置', src: 'moal_config'},
-                        {name: '图件样式配置', isMe: false},
-                    ]
-                },
-            ];
+        loadInfo: function (t = null) {
+            if (this.menu[0] === undefined) {
+                this.menu = [
+                    {
+                        name: '智能数据分析',
+                        items: [],
+                        isOpen: false
+                    }, {
+                        name: '多维度BI可视化',
+                        isOpen: false,
+                        items: [
+                            {name: '通用可视化'},
+                            {name: '定制可视化'},
+                            {name: '多维分析可视化'},
+                            {name: '时空数据可视化'},
+                            {name: '可视化BI仪表盘'}
+                        ]
+                    }, {
+                        name: '平台配置',
+                        isOpen: false,
+                        items: [
+                            {
+                                name: 'ETL 策略配置', isOpen: false, items: [
+                                {
+                                    name: '添加策略', src: 'etl_add'
+                                }
+                            ]
+                            },
+                            {name: '模型算法配置', src: 'moal_config'},
+                            {name: '图件样式配置'},
+                        ]
+                    },
+                ];
+            } else {
+                this.menu[0].items = []
+            }
+            this.moals = {}
+            this.user_paras = {}
             var that = this;
+            // 载入模型算法信息
             $.post("/api/moals", {'username': this.user.loginname}, function (data, status) {
                 data = data['moals'];
                 for (let model in data) {
                     let temp = [];
                     for (let al in data[model]) {
                         data[model][al].name = data[model][al].algorithm;
-                        $.post("/api/get_para_by_model_id", {'modelId':data[model][al].modelId }, function (da, status) {
-                            da=da['para']
-                            data[model][al].paraWeight=parseJson(da.paraWeightsStr)
-                            data[model][al].id=da.id;
+                        $.post("/api/get_para_by_model_id", {'modelId': data[model][al].modelId}, function (da, status) {
+                            da = da['para']
+                            data[model][al].paraWeight = parseJson(da.paraWeight)
+                            data[model][al].id = da.id;
                         })
                         temp.push(data[model][al])
                     }
@@ -215,32 +226,35 @@ const root = new Vue({
                 }
                 that.moals = data;
                 $.post("/api/user_paras", {'username': that.user.loginname}, function (data, status) {
-                    data=data['paras']
-                    console.log(data)
-                    for(let key in data){
-                        let p=data[key];
-                        console.log(p);
-                        if(that.user_paras[p.modelId]===undefined){
-                            that.user_paras[p.modelId]=[]
+                    data = data['paras']
+                    for (let key in data) {
+                        let p = data[key];
+                        if (that.user_paras[p.modelId] === undefined) {
+                            that.user_paras[p.modelId] = []
                         }
-                        p.paraWeight=parseJson(p.paraWeightsStr)
+                        p.paraWeight = parseJson(p.paraWeight)
                         that.user_paras[p.modelId].push(p)
                     }
+                    t();
                 })
 
             })
+            // todo 载入ETL策略信息
+            $.post("/api/get_etl_strategy", {}, function (data, status) {
+
+            })
         },
-        logout:function () {
-            let that=this
-            $.get("/logout",function (data,status) {
+        logout: function () {
+            let that = this
+            $.get("/logout", function (data, status) {
                 window.location.reload()
             })
         }
     }
 });
-window.root=root;
+window.root = root;
+
 function parseJson(str) {
-    str=str.replace(/[“”]/g,'"').replace(/，/g,',');
-    console.log(str)
+    str = str.replace(/[“”]/g, '"').replace(/，/g, ',');
     return JSON.parse(str);
 }

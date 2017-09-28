@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="GBK"?>
 <beans xmlns="http://www.springframework.org/schema/beans"  
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
     xmlns:p="http://www.springframework.org/schema/p"  
@@ -17,13 +17,13 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
         http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd"> 
         
-        <!-- å¼€å¯ç»„ä»¶æ‰«æï¼šåˆ°åŒ…é‡Œé¢æ‰«æç±»ã€æ–¹æ³•ã€å±žæ€§ä¸Šé¢æ˜¯å¦æœ‰æ³¨è§£ -->
+        <!-- ¿ªÆô×é¼þÉ¨Ãè£ºµ½°üÀïÃæÉ¨ÃèÀà¡¢·½·¨¡¢ÊôÐÔÉÏÃæÊÇ·ñÓÐ×¢½â -->
 		<context:component-scan base-package="com.cug.intellM.web"></context:component-scan>
-        <!-- é…ç½®å¤„ç†å™¨æ˜ å°„å™¨å’Œå¤„ç†å™¨é€‚é…å™¨ -->
-        <!-- ä½¿ç”¨ä¸‹é¢çš„æ–¹å¼å¯ä»¥é»˜è®¤é…ç½®æ³¨è§£æ˜ å°„å™¨å’Œæ³¨è§£é€‚é…å™¨-->
+        <!-- ÅäÖÃ´¦ÀíÆ÷Ó³ÉäÆ÷ºÍ´¦ÀíÆ÷ÊÊÅäÆ÷ -->
+        <!-- Ê¹ÓÃÏÂÃæµÄ·½Ê½¿ÉÒÔÄ¬ÈÏÅäÖÃ×¢½âÓ³ÉäÆ÷ºÍ×¢½âÊÊÅäÆ÷-->
         <mvc:annotation-driven>
         	<mvc:message-converters register-defaults="true">
-	            <!-- é¿å…IEæ‰§è¡ŒAJAXæ—¶,è¿”å›žJSONå‡ºçŽ°ä¸‹è½½æ–‡ä»¶ -->
+	            <!-- ±ÜÃâIEÖ´ÐÐAJAXÊ±,·µ»ØJSON³öÏÖÏÂÔØÎÄ¼þ -->
 	            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
 	                <property name="supportedMediaTypes">
 	                    <list>
@@ -33,11 +33,14 @@
 	            </bean>
 	        </mvc:message-converters>
         </mvc:annotation-driven>
-        
-        <!-- é…ç½®è§†å›¾è§£æžå™¨ ï¼Œè§£æžjspï¼Œé»˜è®¤ä½¿ç”¨jstlæ ‡ç­¾-->
+	<mvc:resources mapping="/css/**" location="WEB-INF/static/css/"/>
+	<mvc:resources mapping="/js/**" location="WEB-INF/static/js/"/>
+	<mvc:resources mapping="/fonts/**" location="WEB-INF/static/fonts/"/>
+	<mvc:resources mapping="/pic/**" location="WEB-INF/static/pic/"/>
+        <!-- ÅäÖÃÊÓÍ¼½âÎöÆ÷ £¬½âÎöjsp£¬Ä¬ÈÏÊ¹ÓÃjstl±êÇ©-->
         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        	<!-- é…ç½®jspè·¯å¾„å‰ç¼€ å’Œ åŽç¼€-->
-        	<property name="prefix" value = "/WEB-INF/jsp/"></property>
+        	<!-- ÅäÖÃjspÂ·¾¶Ç°×º ºÍ ºó×º-->
+        	<property name="prefix" value = "/WEB-INF/pages/"></property>
         	<property name="suffix" value = ".jsp"></property>
         
         </bean>

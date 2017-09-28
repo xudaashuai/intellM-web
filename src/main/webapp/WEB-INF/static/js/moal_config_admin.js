@@ -13,8 +13,12 @@ const moal_config = new Vue({
         algorithm_name: '',
         modelParaInput: [],
         para_name:'',
+        user:window.parent.root.user
     },
     computed: {
+        algorithm_i:function () {
+            return this.moals[this.model_id][parseInt(this.algorithm_id)].modelId
+        },
         canSubmit: function () {
             if (this.operation_type == 1) {
                 return this.modelParaInput.length>=1;
@@ -38,10 +42,33 @@ const moal_config = new Vue({
             return t;
         },
         modelNameOk: function () {
-            return !containSpecial(this.model_name) && this.model_name.length > 2 && this.model_name.length < 32
+
+            let t= (!containSpecial(this.model_name)) && this.model_name.length > 0 && this.model_name.length < 32
+            console.log(t)
+            if (t){
+                for(let key in this.moals){
+                    if(this.model_name==key)
+                        return false
+                }
+            }else{
+                return false
+            }
+            return true
+
         },
         algorithmNameOk: function () {
-            return !containSpecial(this.algorithm_name) && this.algorithm_name.length < 32
+            let t= (!containSpecial(this.algorithm_name))&& this.algorithm_name.length > 0 && this.algorithm_name.length < 32
+            console.log(t)
+
+            if (t){
+                for(let key in this.moals[this.model_id]){
+                    if(this.algorithm_name==this.moals[this.model_id][key].algorithm)
+                        return false
+                }
+            }else{
+                return false
+            }
+            return true
         },
     },
     methods: {
@@ -66,6 +93,7 @@ const moal_config = new Vue({
             return t >= 0 && t <= 100
         },
         submit: function () {
+            let url,data;
             if(this.operation_type==3){
                 let weights=this.input_para
                 console.log(weights)
@@ -75,10 +103,50 @@ const moal_config = new Vue({
                     }
                 }
                 let t= JSON.stringify(weights)
-                console.log(t)
-                // todo 添加算法
+                data = {
+                    para:t,
+                    modelId:this.moals[this.model_id][0].modelPos,
+                    userId:this.user.userId,
+                    modelName:this.model_id,
+                    algorithmName:this.algorithm_name
+                }
+                url="/api/add_al"
+            }else if(this.operation_type==4){
+                url="/api/remove_al"
+                data= {alId:this.algorithm_i}
+            }else if(this.operation_type==5){
+                url="/api/update_al"
+                let al=this.moals[this.model_id][parseInt(this.algorithm_id)]
+                let weights=this.input_para
+                console.log(weights)
+                for(let key in weights){
+                    if (weights[key]===undefined||weights[key].length===0){
+                        weights[key]="0";
+                    }
+                }
+                let t= JSON.stringify(weights)
+                data={
+                    modelId:al.modelId,
+                    userId:this.user.userId,
+                    id:al.id,
+                    paraWeights:t
+                }
+            }else{
+                return;
             }
-            console.log(this.operation_type)
+            $.post(url,data,function (data,status) {
+                if(status=='success'){
+                    let that=this
+                    window.parent.root.loadInfo(function () {
+                        that.moals=window.parent.root.moals
+                        that.para = window.parent.root.user_paras
+                        that.user=window.parent.root.user
+                        console.log(that.moals)
+                        alert('成功了')
+                        window.location.reload()
+                    })
+                }
+            })
         },
         onload: function () {
         },
@@ -111,6 +179,7 @@ const moal_config = new Vue({
         },
         modelAddPara: function (s) {
             this.modelParaInput.push(s)
+            this.para_name=''
         }
     }
 });

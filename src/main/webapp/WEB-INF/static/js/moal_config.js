@@ -11,11 +11,14 @@ const moal_config = new Vue({
         input_para:{},
     },
     computed: {
+        algorithm_i:function () {
+            return this.moals[this.model_id][parseInt(this.algorithm_id)].modelId
+        },
         canSubmit: function () {
             if (this.operation_type == 1) {
                 return this.totalWeight==100;
             } else if (this.operation_type == 2) {
-                if (this.para_id === -1 || this.para[this.algorithm_id] === undefined || this.para[this.algorithm_id].length === 0)
+                if (this.para_id === -1 || this.para[this.algorithm_i] === undefined || this.para[this.algorithm_i].length === 0)
                     return false;
 
                 if (document.getElementById(this.para_id) === null) {
@@ -52,6 +55,7 @@ const moal_config = new Vue({
             this.para_id="-1";
             if (this.algorithm_id!=-1&&this.operation_type==1){
                 let p = this.moals[this.model_id][parseInt(this.algorithm_id)].paraWeight
+                console.log(this.moals[this.model_id][parseInt(this.algorithm_id)])
                 this.input_para=p
             }
         },

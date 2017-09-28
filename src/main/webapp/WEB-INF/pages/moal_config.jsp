@@ -59,7 +59,7 @@
                             <select class="form-control" v-model="algorithm_id" @change="changeAlgorithm">
                                 <option value="-1" selected="selected">请选择算法</option>
 
-                                <option v-for="item in moals[model_id]" :value="item.modelId">{{item.algorithm}}
+                                <option v-for="(item,key) in moals[model_id]" :value="key">{{item.algorithm}}
                                 </option>
                             </select>
                         </div>

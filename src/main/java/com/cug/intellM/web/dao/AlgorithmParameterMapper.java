@@ -16,21 +16,15 @@ public interface AlgorithmParameterMapper {
 
     int insertSelective(AlgorithmParameter record);
 
-    List<AlgorithmParameter> selectByExampleWithBLOBs(AlgorithmParameterExample example);
-
     List<AlgorithmParameter> selectByExample(AlgorithmParameterExample example);
 
     AlgorithmParameter selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") AlgorithmParameter record, @Param("example") AlgorithmParameterExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") AlgorithmParameter record, @Param("example") AlgorithmParameterExample example);
-
     int updateByExample(@Param("record") AlgorithmParameter record, @Param("example") AlgorithmParameterExample example);
 
     int updateByPrimaryKeySelective(AlgorithmParameter record);
-
-    int updateByPrimaryKeyWithBLOBs(AlgorithmParameter record);
 
     int updateByPrimaryKey(AlgorithmParameter record);
 }

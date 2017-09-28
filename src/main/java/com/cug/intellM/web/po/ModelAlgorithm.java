@@ -36,7 +36,12 @@ public class ModelAlgorithm {
     public String getRmark() {
         return rmark;
     }
-
+    public int getModelPos(){
+        return Integer.parseInt(modelId.split("#")[0]);
+    }
+    public int getAlgorithmPos(){
+        return Integer.parseInt(modelId.split("#")[1]);
+    }
     public void setRmark(String rmark) {
         this.rmark = rmark == null ? null : rmark.trim();
     }

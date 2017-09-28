@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cug.intellM.web.dao.AlgorithmParameterMapper" >
-  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.AlgorithmParameter" >
-    <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="User_ID" property="userId" jdbcType="INTEGER" />
-    <result column="Model_ID" property="modelId" jdbcType="VARCHAR" />
-    <result column="Para_Weight" property="paraWeight" jdbcType="VARCHAR" />
+<mapper namespace="com.cug.intellM.web.dao.ModelNumMapper" >
+  <resultMap id="BaseResultMap" type="com.cug.intellM.web.po.ModelNum" >
+    <id column="Model" property="model" jdbcType="INTEGER" />
+    <result column="Num" property="num" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, User_ID, Model_ID, Para_Weight
+    Model, Num
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cug.intellM.web.po.ModelNumExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ALGORITHM_PARAMETER_TBL
+    from MODEL_NUM_TBL
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +83,56 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from ALGORITHM_PARAMETER_TBL
-    where ID = #{id,jdbcType=INTEGER}
+    from MODEL_NUM_TBL
+    where Model = #{model,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from ALGORITHM_PARAMETER_TBL
-    where ID = #{id,jdbcType=INTEGER}
+    delete from MODEL_NUM_TBL
+    where Model = #{model,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" >
-    delete from ALGORITHM_PARAMETER_TBL
+  <delete id="deleteByExample" parameterType="com.cug.intellM.web.po.ModelNumExample" >
+    delete from MODEL_NUM_TBL
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
-    insert into ALGORITHM_PARAMETER_TBL (ID, User_ID, Model_ID, 
-      Para_Weight)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{modelId,jdbcType=VARCHAR}, 
-      #{paraWeight,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.cug.intellM.web.po.ModelNum" >
+    insert into MODEL_NUM_TBL (Model, Num)
+    values (#{model,jdbcType=INTEGER}, #{num,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
-    insert into ALGORITHM_PARAMETER_TBL
+  <insert id="insertSelective" parameterType="com.cug.intellM.web.po.ModelNum" >
+    insert into MODEL_NUM_TBL
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        ID,
+      <if test="model != null" >
+        Model,
       </if>
-      <if test="userId != null" >
-        User_ID,
-      </if>
-      <if test="modelId != null" >
-        Model_ID,
-      </if>
-      <if test="paraWeight != null" >
-        Para_Weight,
+      <if test="num != null" >
+        Num,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="model != null" >
+        #{model,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="modelId != null" >
-        #{modelId,jdbcType=VARCHAR},
-      </if>
-      <if test="paraWeight != null" >
-        #{paraWeight,jdbcType=VARCHAR},
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cug.intellM.web.po.AlgorithmParameterExample" resultType="java.lang.Integer" >
-    select count(*) from ALGORITHM_PARAMETER_TBL
+  <select id="countByExample" parameterType="com.cug.intellM.web.po.ModelNumExample" resultType="java.lang.Integer" >
+    select count(*) from MODEL_NUM_TBL
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update ALGORITHM_PARAMETER_TBL
+    update MODEL_NUM_TBL
     <set >
-      <if test="record.id != null" >
-        ID = #{record.id,jdbcType=INTEGER},
+      <if test="record.model != null" >
+        Model = #{record.model,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        User_ID = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.modelId != null" >
-        Model_ID = #{record.modelId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.paraWeight != null" >
-        Para_Weight = #{record.paraWeight,jdbcType=VARCHAR},
+      <if test="record.num != null" >
+        Num = #{record.num,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -162,35 +140,25 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update ALGORITHM_PARAMETER_TBL
-    set ID = #{record.id,jdbcType=INTEGER},
-      User_ID = #{record.userId,jdbcType=INTEGER},
-      Model_ID = #{record.modelId,jdbcType=VARCHAR},
-      Para_Weight = #{record.paraWeight,jdbcType=VARCHAR}
+    update MODEL_NUM_TBL
+    set Model = #{record.model,jdbcType=INTEGER},
+      Num = #{record.num,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
-    update ALGORITHM_PARAMETER_TBL
+  <update id="updateByPrimaryKeySelective" parameterType="com.cug.intellM.web.po.ModelNum" >
+    update MODEL_NUM_TBL
     <set >
-      <if test="userId != null" >
-        User_ID = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="modelId != null" >
-        Model_ID = #{modelId,jdbcType=VARCHAR},
-      </if>
-      <if test="paraWeight != null" >
-        Para_Weight = #{paraWeight,jdbcType=VARCHAR},
+      <if test="num != null" >
+        Num = #{num,jdbcType=INTEGER},
       </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
+    where Model = #{model,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.AlgorithmParameter" >
-    update ALGORITHM_PARAMETER_TBL
-    set User_ID = #{userId,jdbcType=INTEGER},
-      Model_ID = #{modelId,jdbcType=VARCHAR},
-      Para_Weight = #{paraWeight,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.cug.intellM.web.po.ModelNum" >
+    update MODEL_NUM_TBL
+    set Num = #{num,jdbcType=INTEGER}
+    where Model = #{model,jdbcType=INTEGER}
   </update>
 </mapper>

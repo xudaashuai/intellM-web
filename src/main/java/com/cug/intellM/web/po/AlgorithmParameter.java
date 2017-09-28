@@ -1,11 +1,5 @@
 package com.cug.intellM.web.po;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import sun.nio.cs.StandardCharsets;
-
-import java.io.UnsupportedEncodingException;
-
 public class AlgorithmParameter {
     private Integer id;
 
@@ -13,7 +7,7 @@ public class AlgorithmParameter {
 
     private String modelId;
 
-    private byte[] paraWeights;
+    private String paraWeight;
 
     public Integer getId() {
         return id;
@@ -39,14 +33,17 @@ public class AlgorithmParameter {
         this.modelId = modelId == null ? null : modelId.trim();
     }
 
-    public byte[] getParaWeights() {
-        return paraWeights;
+    public String getParaWeight() {
+        return paraWeight;
+    }
+    public int getModelPos(){
+        return Integer.parseInt(modelId.split("#")[0]);
+    }
+    public int getAlgorithmPos(){
+        return Integer.parseInt(modelId.split("#")[1]);
     }
 
-    public void setParaWeights(byte[] paraWeights) {
-        this.paraWeights = paraWeights;
-    }
-    public String getParaWeightsStr() throws  UnsupportedEncodingException {
-        return new String(paraWeights);
+    public void setParaWeight(String paraWeight) {
+        this.paraWeight = paraWeight == null ? null : paraWeight.trim();
     }
 }

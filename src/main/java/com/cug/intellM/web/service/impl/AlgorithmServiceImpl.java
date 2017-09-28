@@ -24,14 +24,14 @@ public class AlgorithmServiceImpl implements AlgorithmService
 	
 	
 
-	//Service²ã ÀûÓÃdao²ãÌá¹©µÄ»ù±¾¹¦ÄÜ     ×éÖ¯³É¸üÎª·á¸»µÄ·þÎñ
+	//Serviceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½daoï¿½ï¿½ï¿½á¹©ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½     ï¿½ï¿½Ö¯ï¿½É¸ï¿½Îªï¿½á¸»ï¿½Ä·ï¿½ï¿½ï¿½
 	@Autowired
-	private UserMapper userMapper;//ÓÃ»§»ù±¾ÐÅÏ¢
+	private UserMapper userMapper;//ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		
 	@Autowired
-	private AlgorithmParameterMapper theAlgorithmParameter;//Ëã·¨²ÎÊý
+	private AlgorithmParameterMapper theAlgorithmParameter;//ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½
 	@Autowired
-	private ModelAlgorithmMapper theModelAlgorithm;//Ëã·¨Ä£ÐÍ
+	private ModelAlgorithmMapper theModelAlgorithm;//ï¿½ã·¨Ä£ï¿½ï¿½
 	
 	
 	
@@ -51,7 +51,7 @@ public class AlgorithmServiceImpl implements AlgorithmService
 	
 	
 	
-	//»ñÈ¡µ±Ç°ËùÓÐËã·¨Ä£ÐÍ
+	//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨Ä£ï¿½ï¿½
 	public List<ModelAlgorithm> getModelAlgorithms() 
 	{
 		
@@ -85,7 +85,7 @@ public class AlgorithmServiceImpl implements AlgorithmService
     public AlgorithmParameter getSystemAlgorithmsParameter(String id) {
         AlgorithmParameterExample algorithmParameterExample=new AlgorithmParameterExample();
         algorithmParameterExample.createCriteria().andModelIdEqualTo(id).andUserIdEqualTo(1);
-        List<AlgorithmParameter> list= theAlgorithmParameter.selectByExampleWithBLOBs(algorithmParameterExample);
+        List<AlgorithmParameter> list= theAlgorithmParameter.selectByExample(algorithmParameterExample);
         if (list.size()==0){
             return null;
         }else{
@@ -96,7 +96,7 @@ public class AlgorithmServiceImpl implements AlgorithmService
 
 	public AlgorithmParameter getAlgorithmsParameterById(int id) {
 
-		//Í¨¹ý Ëã·¨ID²éÑ¯ Ëã·¨²ÎÊý
+		//Í¨ï¿½ï¿½ ï¿½ã·¨IDï¿½ï¿½Ñ¯ ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½
 		AlgorithmParameter theParameters;
 		try
 		{
@@ -108,14 +108,13 @@ public class AlgorithmServiceImpl implements AlgorithmService
 		return theParameters;
 	}
 
-
-	//²åÈëËã·¨²ÎÊý
-	public boolean insertAlgorithmParameter(String username, AlgorithmParameter theParameter) 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½
+	public boolean insertAlgorithmParameter(String username, AlgorithmParameter theParameter)
 	{
 		int theUserID=this.getUserID(username);
 		if(theUserID==-1)
 			return false;
-		theParameter.setUserId(theUserID);//ÉèÖÃÓÃ»§ID
+		theParameter.setUserId(theUserID);//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ID
 		try
 		{
 			theAlgorithmParameter.insertSelective(theParameter);
@@ -123,22 +122,22 @@ public class AlgorithmServiceImpl implements AlgorithmService
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	public boolean insertAlgorithmParameter2(int User_ID, AlgorithmParameter theParameter) 
+	public boolean insertAlgorithmParameter2(int User_ID, AlgorithmParameter theParameter)
 	{
-		
-		theParameter.setUserId(User_ID);//ÉèÖÃÓÃ»§ID
+
+		theParameter.setUserId(User_ID);//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ID
 		try
 		{
 			theAlgorithmParameter.insertSelective(theParameter);
 		}catch(Exception e)
 		{
-			System.out.print("Òì³£"+e);
+			System.out.print("ï¿½ì³£"+e);
 			return false;
 		}
-		
+
 		return true;
 	}
 	public List<AlgorithmParameter> getAlgorithmParameter(String username)
@@ -146,35 +145,37 @@ public class AlgorithmServiceImpl implements AlgorithmService
 		int theUserID=getUserID(username);
 		if(theUserID==-1)
 			return null;
-		//ÔÚ Ëã·¨²ÎÊý±íÖÐ²é³öÓÃ»§µÄËùÓÐËã·¨²ÎÊýÊý¾Ý
+		//ï¿½ï¿½ ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
 		oneExample.or().andUserIdEqualTo(theUserID);
 		List<AlgorithmParameter> theParameters;
 		try
 		{
-			theParameters=theAlgorithmParameter.selectByExampleWithBLOBs(oneExample);
+			theParameters=theAlgorithmParameter.selectByExample(oneExample);
 		}catch(Exception e)
 		{
 			return null;
 		}
 		return theParameters;
 	}
-	public List<AlgorithmParameter> getAlgorithmParameter2(int User_ID) 
+	public List<AlgorithmParameter> getAlgorithmParameter2(int User_ID)
 	{
-		//ÔÚ Ëã·¨²ÎÊý±íÖÐ²é³öÓÃ»§µÄËùÓÐËã·¨²ÎÊýÊý¾Ý
-				AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
-				oneExample.or().andUserIdEqualTo(User_ID);
-				List<AlgorithmParameter> theParameters;
-				try
-				{
-					theParameters=theAlgorithmParameter.selectByExampleWithBLOBs(oneExample);
-				}catch(Exception e)
-				{
-					return null;
-				}
-				return theParameters;
+		//ï¿½ï¿½ ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		System.out.println("Äªï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½");
+		AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
+		oneExample.or().andUserIdEqualTo(User_ID);
+		List<AlgorithmParameter> theParameters;
+		try
+		{
+			theParameters=theAlgorithmParameter.selectByExample(oneExample);
+		}catch(Exception e)
+		{
+			System.out.println("ï¿½ì³£"+e);
+			return null;
+		}
+		return theParameters;
 	}
-	public boolean deleteAlgorithmParameter(String username, int theParameterID) 
+	public boolean deleteAlgorithmParameter(String username, int theParameterID)
 	{
 		int theUserID=getUserID(username);
 		if(theUserID==-1)
@@ -190,12 +191,12 @@ public class AlgorithmServiceImpl implements AlgorithmService
 			return false;
 		}
 		return true;
-		
-		
+
+
 	}
-	public boolean deleteAlgorithmParameter2(int User_ID, int theParameterID) 
+	public boolean deleteAlgorithmParameter2(int User_ID, int theParameterID)
 	{
-		
+
 		AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
 		oneExample.or().andUserIdEqualTo(User_ID);
 		oneExample.or().andIdEqualTo(theParameterID);
@@ -207,24 +208,23 @@ public class AlgorithmServiceImpl implements AlgorithmService
 			return false;
 		}
 		return true;
-		
-		
+
+
 	}
-	public boolean updateAlgorithmParameter(AlgorithmParameter theParameter) 
+	public boolean updateAlgorithmParameter(AlgorithmParameter theParameter)
 	{
-		
+
 		AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
-		oneExample.or().andUserIdEqualTo(theParameter.getUserId());
-		oneExample.or().andIdEqualTo(theParameter.getId());
+		oneExample.createCriteria().andIdEqualTo(theParameter.getId());
 		try
 		{
-			theAlgorithmParameter.updateByExampleWithBLOBs(theParameter, oneExample);
+			theAlgorithmParameter.updateByExampleSelective(theParameter, oneExample);
 		}catch(Exception e)
 		{
 			return false;
 		}
 		return true;
-		
+
 	}
 
 }

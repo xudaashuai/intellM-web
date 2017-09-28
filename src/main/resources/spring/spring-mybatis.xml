@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>  
+<?xml version="1.0" encoding="GBK"?>
 <beans xmlns="http://www.springframework.org/schema/beans"  
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
     xmlns:p="http://www.springframework.org/schema/p"  
@@ -18,10 +18,10 @@
         http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd"> 
  	
     
-    <!-- å¼•å…¥å±žæ€§æ–‡ä»¶ -->  
+    <!-- ÒýÈëÊôÐÔÎÄ¼þ -->  
     <context:property-placeholder location="classpath:db.properties" />  
     
-     <!-- é…ç½®æ•°æ®æº,ä½¿ç”¨c3p0è¿žæŽ¥æ±  -->  
+     <!-- ÅäÖÃÊý¾ÝÔ´,Ê¹ÓÃc3p0Á¬½Ó³Ø -->  
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"  destroy-method="close">  
         <property name="driverClass" value="${mytest.jdbc.driver}" />  
         <property name="jdbcUrl" value="${mytest.jdbc.url}" />  
@@ -39,21 +39,21 @@
         <property name="testConnectionOnCheckout" value="false" />  
     </bean>  
  
- 	 <!-- é…ç½®sqlSessionFactory -->  	
+ 	 <!-- ÅäÖÃsqlSessionFactory -->  	
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
-        <!-- åŠ è½½æ•°æ®åº“è¿žæŽ¥æ± å’Œæ•°æ®æº -->
+        <!-- ¼ÓÔØÊý¾Ý¿âÁ¬½Ó³ØºÍÊý¾ÝÔ´ -->
         <property name="dataSource" ref="dataSource" />         
-        <!-- åŠ è½½mybatisçš„é…ç½®æ–‡ä»¶mybatis-config.xml --> 
+        <!-- ¼ÓÔØmybatisµÄÅäÖÃÎÄ¼þmybatis-config.xml --> 
         <property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />  
-         <!-- å®ƒè¡¨ç¤ºMapperæ–‡ä»¶å­˜æ”¾çš„ä½ç½®ï¼Œå½“æˆ‘ä»¬çš„Mapperæ–‡ä»¶è·Ÿå¯¹åº”çš„MapperæŽ¥å£å¤„äºŽåŒä¸€ä½ç½®çš„æ—¶å€™å¯ä»¥ä¸ç”¨æŒ‡å®šè¯¥å±žæ€§çš„å€¼ã€‚ --> 
+         <!-- Ëü±íÊ¾MapperÎÄ¼þ´æ·ÅµÄÎ»ÖÃ£¬µ±ÎÒÃÇµÄMapperÎÄ¼þ¸ú¶ÔÓ¦µÄMapper½Ó¿Ú´¦ÓÚÍ¬Ò»Î»ÖÃµÄÊ±ºò¿ÉÒÔ²»ÓÃÖ¸¶¨¸ÃÊôÐÔµÄÖµ¡£ --> 
         <!--  <property name="mapperLocations" value="classpath:com/gray/user/entity/mybatis-*.xml" />  -->
     </bean>
     
-    <!-- mapperæ‰¹é‡æ‰«æï¼Œä»ŽmapperåŒ…ä¸­æ‰«æå‡ºmapperæŽ¥å£ï¼Œè‡ªåŠ¨åˆ›å»ºä»£ç†å¯¹è±¡å¹¶åœ¨springå®¹å™¨ä¸­æ³¨å†Œ 
-             éµå¾ªè§„èŒƒï¼šå°†mapper.javaå’Œmapper.xmlæ˜ å°„æ–‡ä»¶åç§°ä¿æŒä¸€è‡´ï¼Œä¸”åœ¨ä¸€ä¸ªç›®å½•ä¸­ï¼Œè‡ªåŠ¨æ‰«æå‡ºæ¥çš„mapperçš„beançš„idä¸ºmapperç±»åé¦–å­—æ¯å°å†™
+    <!-- mapperÅúÁ¿É¨Ãè£¬´Ómapper°üÖÐÉ¨Ãè³ömapper½Ó¿Ú£¬×Ô¶¯´´½¨´úÀí¶ÔÏó²¢ÔÚspringÈÝÆ÷ÖÐ×¢²á 
+             ×ñÑ­¹æ·¶£º½«mapper.javaºÍmapper.xmlÓ³ÉäÎÄ¼þÃû³Æ±£³ÖÒ»ÖÂ£¬ÇÒÔÚÒ»¸öÄ¿Â¼ÖÐ£¬×Ô¶¯É¨Ãè³öÀ´µÄmapperµÄbeanµÄidÎªmapperÀàÃûÊ××ÖÄ¸Ð¡Ð´
     -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
-       <!-- æ‰«æåŒ…è·¯å¾„ï¼Œå¤šä¸ªç”¨é€—å·éš”å¼€ -->
+       <!-- É¨Ãè°üÂ·¾¶£¬¶à¸öÓÃ¶ººÅ¸ô¿ª -->
         <property name="basePackage"  value="com.cug.intellM.web.dao" />  
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />  
     </bean>  

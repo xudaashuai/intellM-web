@@ -50,12 +50,12 @@
                     <div v-if="operation_type==1">
                         <!-- 添加模型-->
                         <div class="form-item"
-                             :class="{'has-error':!nameOk(model_name)}">
+                             :class="{'has-error':!modelNameOk}">
                             <h4>模型名称</h4>
-                            <input :value="value" :name="key" class="form-control" type="text"
+                            <input class="form-control" type="text"
                                    v-model="model_name">
                         </div>
-                        <div v-if="nameOk(model_name)">
+                        <div v-if="modelNameOk">
                             <h3>参数列表</h3>
                             <div class="xhx"></div>
                             <div class="form-item" v-for="(para_name,index) in modelParaInput">
@@ -85,18 +85,18 @@
                         <!-- 删除模型 -->
                         <div class="form-item" v-if="operation_type==2">
                             <div></div>
-                            <button class="btn btn-danger" @click="submit" :disabled="canSubmit">确定</button>
+                            <button class="btn btn-danger" @click="submit" :disabled="!canSubmit">确定</button>
                         </div>
                         <div v-else-if="model_id!=-1">
                             <!-- 添加算法 -->
                             <div v-if="operation_type==3">
                                 <div class="form-item"
-                                     :class="{'has-error':!nameOk(algorithm_name)}">
+                                     :class="{'has-error':!algorithmNameOk}">
                                     <h4>算法名称</h4>
                                     <input class="form-control" type="text"
                                            v-model="algorithm_name">
                                 </div>
-                                <div v-if="nameOk(algorithm_name)">
+                                <div v-if="algorithmNameOk">
                                     <h3>算法参数表</h3>
                                     <div class="xhx"></div>
                                     <div class="form-item "
@@ -123,7 +123,7 @@
                                     <h4>算法</h4>
                                     <select class="form-control" v-model="algorithm_id" @change="changeAlgorithm">
                                         <option value="-1" selected="selected">请选择算法</option>
-                                        <option v-for="item in moals[model_id]" :value="item.modelId">{{item.algorithm}}
+                                        <option v-for="(item,key) in moals[model_id]" :value="key">{{item.algorithm}}
                                         </option>
                                     </select>
                                 </div>
@@ -145,12 +145,12 @@
                                                     </div>
                                                     <div class="form-item">
                                                         <h4>总计（需要为100）</h4>
-                                                        <input class="form-control" :value="totalWeight" type="number"
+                                                        <input class="form-control" :class="{'has-error':totlaWeight!=100}" :value="totalWeight" type="number"
                                                                disabled="disabled">
                                                     </div>
                                                     <div class="form-item">
                                                         <div></div>
-                                                        <button class="btn" @click="submit"
+                                                        <button class="btn btn-primary" @click="submit"
                                                                 :disabled="!canSubmit">确定
                                                         </button>
                                                     </div>

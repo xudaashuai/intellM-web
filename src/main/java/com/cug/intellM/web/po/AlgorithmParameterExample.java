@@ -293,6 +293,76 @@ public class AlgorithmParameterExample {
             addCriterion("Model_ID not between", value1, value2, "modelId");
             return (Criteria) this;
         }
+
+        public Criteria andParaWeightIsNull() {
+            addCriterion("Para_Weight is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightIsNotNull() {
+            addCriterion("Para_Weight is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightEqualTo(String value) {
+            addCriterion("Para_Weight =", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightNotEqualTo(String value) {
+            addCriterion("Para_Weight <>", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightGreaterThan(String value) {
+            addCriterion("Para_Weight >", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightGreaterThanOrEqualTo(String value) {
+            addCriterion("Para_Weight >=", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightLessThan(String value) {
+            addCriterion("Para_Weight <", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightLessThanOrEqualTo(String value) {
+            addCriterion("Para_Weight <=", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightLike(String value) {
+            addCriterion("Para_Weight like", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightNotLike(String value) {
+            addCriterion("Para_Weight not like", value, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightIn(List<String> values) {
+            addCriterion("Para_Weight in", values, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightNotIn(List<String> values) {
+            addCriterion("Para_Weight not in", values, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightBetween(String value1, String value2) {
+            addCriterion("Para_Weight between", value1, value2, "paraWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andParaWeightNotBetween(String value1, String value2) {
+            addCriterion("Para_Weight not between", value1, value2, "paraWeight");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
