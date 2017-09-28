@@ -17,11 +17,11 @@
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/flat-ui.css" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet">
-    <link href="/css/moal_config.css" rel="stylesheet">
-    <script src="/js/vue.js"></script>
+    <link href="${pageContext.request.contextPath}/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/flat-ui.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/moal_config.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/js/vue.js"></script>
 </head>
 <script>
     var t = 1;
@@ -39,6 +39,7 @@
                 <option value="-1" selected="selected">请选择您的操作</option>
                 <option value="1">添加模型</option>
                 <option value="2">删除模型</option>
+                <option value="6">修改模型</option>
                 <option value="3">添加算法</option>
                 <option value="4">删除算法</option>
                 <option value="5">修改算法</option>
@@ -86,6 +87,24 @@
                         <div class="form-item" v-if="operation_type==2">
                             <div></div>
                             <button class="btn btn-danger" @click="submit" :disabled="!canSubmit">确定</button>
+                        </div>
+                        <div class="form-item" v-else-if="operation_type==6">
+                            <h3>参数列表</h3>
+                            <div class="xhx"></div>
+                            <div class="form-item" v-for="(para_name,index) in modelParaInput">
+                                <h4>{{para_name}}</h4>
+                                <button @click="modelRemovePara(index)" class="btn btn-danger">删除参数</button>
+                            </div>
+                            <div  class="form-item">
+                                <input :value="value" :name="key" class="form-control" type="text"
+                                       v-model="para_name">
+                                <button @click="modelAddPara(para_name)" class="btn btn-primary" :disabled="!canAddPara(para_name)">添加参数</button>
+                            </div>
+
+                            <div class="form-item">
+                                <div></div>
+                                <button class="btn btn-primary" @click="submit" :disabled="!canSubmit">确定</button>
+                            </div>
                         </div>
                         <div v-else-if="model_id!=-1">
                             <!-- 添加算法 -->
@@ -173,9 +192,9 @@
         </transition>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/flat-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
 
-<script src="/js/moal_config_admin.js"></script>
+<script src="${pageContext.request.contextPath}/js/moal_config_admin.js"></script>
 </body>
 </html>

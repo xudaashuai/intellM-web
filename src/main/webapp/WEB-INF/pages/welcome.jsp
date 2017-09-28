@@ -10,10 +10,10 @@
 <head>
     <title>Title</title>
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/js/flat-ui.js"></script>
-    <link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet">
-    <script src="/js/vue.js"></script>
+    <script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
+    <link href="${pageContext.request.contextPath}/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/js/vue.js"></script>
 </head>
 <body>
 <div class="container">

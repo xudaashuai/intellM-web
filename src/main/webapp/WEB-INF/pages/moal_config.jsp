@@ -17,11 +17,11 @@
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <link href="/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/flat-ui.css" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet">
-    <link href="/css/moal_config.css" rel="stylesheet">
-    <script src="/js/vue.js"></script>
+    <link href="${pageContext.request.contextPath}/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/flat-ui.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/moal_config.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/js/vue.js"></script>
 </head>
 <script>
     var t = 1;
@@ -117,9 +117,9 @@
         </transition>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/flat-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
 
-<script src="/js/moal_config.js"></script>
+<script src="${pageContext.request.contextPath}/js/moal_config.js"></script>
 </body>
 </html>

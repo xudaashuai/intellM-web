@@ -158,6 +158,11 @@ const moal_config = new Vue({
         changeModel: function () {
             this.algorithm_id = "-1";
             this.para_id = "-1";
+            if (this.model_id!=-1){
+                if(this.operation_type==6){
+                    this.modelParaInput = this.moals[this.model_id][0]
+                }
+            }
         },
         changeAlgorithm: function () {
             this.para_id = "-1";
