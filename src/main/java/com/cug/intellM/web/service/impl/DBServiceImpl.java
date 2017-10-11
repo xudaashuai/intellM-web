@@ -27,7 +27,7 @@ public class DBServiceImpl implements DBService
 			Class.forName(name);
 		} catch (ClassNotFoundException e2) 
 		{
-			System.out.print("¼ÓÔØÇý¶¯Ê§°Ü");
+			System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
 			return null;
 		}
         Connection conn;
@@ -36,7 +36,7 @@ public class DBServiceImpl implements DBService
 			conn = DriverManager.getConnection(url,Name, Password);
 		} catch (SQLException e2) 
 		{
-			System.out.print("Á¬½ÓÊý¾Ý¿âÊ§°Ü£¡");
+			System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ê§ï¿½Ü£ï¿½");
 			return null;
 		} 
 		return conn;
@@ -56,7 +56,7 @@ public class DBServiceImpl implements DBService
 			     new String[] { "TABLE" });  
 			   while (rs.next()) 
 			   {  
-			     System.out.println("±íÃû£º" + rs.getString(3));  
+			     System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + rs.getString(3));  
 			     tables.add(rs.getString(3));
 			     
 			   }  
@@ -75,7 +75,28 @@ public class DBServiceImpl implements DBService
 		return tables;
 	}
 
-	//»ñÈ¡Ö¸¶¨±íµÄÁÐÃû
+	public Object testDatabase(String url, String Name, String Password) {
+		try
+		{
+			Class.forName(name);
+		} catch (ClassNotFoundException e2)
+		{
+			System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
+			return e2;
+		}
+		Connection conn;
+		try
+		{
+			conn = DriverManager.getConnection(url,Name, Password);
+		} catch (SQLException e2)
+		{
+			System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ê§ï¿½Ü£ï¿½");
+			return e2;
+		}
+		return null;
+	}
+
+	//ï¿½ï¿½È¡Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<String> getCloumns(String url, String Name, String Password, String tableName)
 	{
 		
@@ -102,7 +123,7 @@ public class DBServiceImpl implements DBService
 		}
 		try 
 		{
-			conn.close();    //¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+			conn.close();    //ï¿½Ø±ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
 		} catch (SQLException e) 
 		{
 			

@@ -21,6 +21,7 @@
     <link href="${pageContext.request.contextPath}/css/flat-ui.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/moal_config.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/input.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/js/vue.js"></script>
 </head>
 <script>
@@ -63,10 +64,12 @@
                                 <h4>{{para_name}}</h4>
                                 <button @click="modelRemovePara(index)" class="btn btn-danger">删除参数</button>
                             </div>
-                            <div  class="form-item">
+                            <div class="form-item">
                                 <input :value="value" :name="key" class="form-control" type="text"
                                        v-model="para_name">
-                                <button @click="modelAddPara(para_name)" class="btn btn-primary" :disabled="!canAddPara(para_name)">添加参数</button>
+                                <button @click="modelAddPara(para_name)" class="btn btn-primary"
+                                        :disabled="!canAddPara(para_name)">添加参数
+                                </button>
                             </div>
 
                             <div class="form-item">
@@ -88,17 +91,20 @@
                             <div></div>
                             <button class="btn btn-danger" @click="submit" :disabled="!canSubmit">确定</button>
                         </div>
-                        <div class="form-item" v-else-if="operation_type==6">
+                        <div v-else-if="operation_type==6">
+                            <!-- 修改模型 -->
                             <h3>参数列表</h3>
                             <div class="xhx"></div>
                             <div class="form-item" v-for="(para_name,index) in modelParaInput">
                                 <h4>{{para_name}}</h4>
                                 <button @click="modelRemovePara(index)" class="btn btn-danger">删除参数</button>
                             </div>
-                            <div  class="form-item">
+                            <div class="form-item">
                                 <input :value="value" :name="key" class="form-control" type="text"
                                        v-model="para_name">
-                                <button @click="modelAddPara(para_name)" class="btn btn-primary" :disabled="!canAddPara(para_name)">添加参数</button>
+                                <button @click="modelAddPara(para_name)" class="btn btn-primary"
+                                        :disabled="!canAddPara(para_name)">添加参数
+                                </button>
                             </div>
 
                             <div class="form-item">
@@ -120,7 +126,7 @@
                                     <div class="xhx"></div>
                                     <div class="form-item "
                                          :class="{'has-error':!weightOk(input_para[key])}"
-                                         v-for="(value,key) in moals[model_id][0].paraWeight">
+                                         v-for="(value,key) in input_para">
                                         <h4>{{key}}</h4>
                                         <input :value="value" :name="key" class="form-control"
                                                type="number"
@@ -133,7 +139,8 @@
                                     </div>
                                     <div class="form-item">
                                         <div></div>
-                                        <button class="btn btn-primary" :disabled="!canSubmit" @click="submit">确定</button>
+                                        <button class="btn btn-primary" :disabled="!canSubmit" @click="submit">确定
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +149,8 @@
                                     <h4>算法</h4>
                                     <select class="form-control" v-model="algorithm_id" @change="changeAlgorithm">
                                         <option value="-1" selected="selected">请选择算法</option>
-                                        <option v-for="(item,key) in moals[model_id]" :value="key">{{item.algorithm}}
+                                        <option v-for="(item,key) in moals[model_id]" :value="key">
+                                            {{item.algorithm}}
                                         </option>
                                     </select>
                                 </div>
@@ -164,7 +172,9 @@
                                                     </div>
                                                     <div class="form-item">
                                                         <h4>总计（需要为100）</h4>
-                                                        <input class="form-control" :class="{'has-error':totlaWeight!=100}" :value="totalWeight" type="number"
+                                                        <input class="form-control"
+                                                               :class="{'has-error':totlaWeight!=100}"
+                                                               :value="totalWeight" type="number"
                                                                disabled="disabled">
                                                     </div>
                                                     <div class="form-item">
@@ -178,7 +188,9 @@
                                             <div v-else-if="operation_type==4" class="form-item">
                                                 <div></div>
                                                 <div>
-                                                    <button class="btn btn-danger" @click="submit" :disabled="!canSubmit">确定</button>
+                                                    <button class="btn btn-danger" @click="submit"
+                                                            :disabled="!canSubmit">确定
+                                                    </button>
                                                 </div>
                                             </div>
                                         </transition>
@@ -187,10 +199,11 @@
                             </div>
                         </div>
                     </div>
-                </transition>
             </div>
         </transition>
     </div>
+    </transition>
+</div>
 </div>
 <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>

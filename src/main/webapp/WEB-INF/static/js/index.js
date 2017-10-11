@@ -7,6 +7,7 @@ username = /[0-9a-zA-Z]{5,15}/;
 const root = new Vue({
     el: '#card2',
     data: {
+        clickAl:{},
         isFirst: isFirst,
         isLogining: false,
         isReging: false,
@@ -20,7 +21,7 @@ const root = new Vue({
             password: ''
         },
         tooltips: [
-            [],
+            ['用户名需要6到15个字符，只能有字母与数字', '密码需要6到15个字符，只能有字母与数字'],
             ['用户名需要6到15个字符，只能有字母与数字', '密码需要6到15个字符，只能有字母与数字', '两次要一样哟']
         ],
         reg: {
@@ -34,7 +35,10 @@ const root = new Vue({
         menu: [],
         user: user,
         moals: {},
-        user_paras: {}
+        user_paras: {},
+        datasources: {},
+        strategys: {},
+        strategy: {}
     },
     computed: {
         regUsernameOk: function () {
@@ -75,19 +79,15 @@ const root = new Vue({
                 item = item.items[index[i]]
             }
             if (item.type !== undefined) {
-                switch (item.type) {
-                    case 'add_a':
-                        $('#addA_Model').modal({backdrop: 'static', keyboard: false});
-                        break;
-                    case 'remove_a':
-                        $('#removeA_Model').modal({backdrop: 'static', keyboard: false});
-                        break;
-                }
+                // todo cleanup code
             } else if (item.items !== undefined && item.items !== null) {
                 item.isOpen = !item.isOpen;
             } else {
                 let i = this.getIndex(item.name);
                 if (i === -1) {
+                    if (item.op !== undefined & item.op !== null) {
+                        item.op()
+                    }
                     this.tabs.push(item);
                     this.selectTab = this.tabs.length - 1;
                 } else {
@@ -151,6 +151,9 @@ const root = new Vue({
             }
             Vue.delete(this.tabs, i)
         },
+        closeOpen:function () {
+          this.closeTab(this.selectTab)
+        },
         tabClick: function (i) {
             this.selectTab = i
         },
@@ -166,13 +169,16 @@ const root = new Vue({
             this.isFirst = !this.isFirst;
         },
         loadInfo: function (t = null) {
+
+            var that = this;
             if (this.menu[0] === undefined) {
                 this.menu = [
                     {
                         name: '智能数据分析',
                         items: [],
                         isOpen: false
-                    }, {
+                    },
+                    {
                         name: '多维度BI可视化',
                         isOpen: false,
                         items: [
@@ -182,14 +188,25 @@ const root = new Vue({
                             {name: '时空数据可视化'},
                             {name: '可视化BI仪表盘'}
                         ]
-                    }, {
+                    },
+                    {
                         name: '平台配置',
                         isOpen: false,
                         items: [
                             {
                                 name: 'ETL 策略配置', isOpen: false, items: [
                                 {
-                                    name: '添加策略', src: 'etl_add'
+                                    name: '添加策略', src: 'etl_add', op: function () {
+                                        that.strategyOpType = 'add'
+                                        that.strategy={
+                                            strategyname:null,
+                                            extractresource:null,
+                                            extratdetails:null,
+                                            loadresource:null,
+                                            loaddetails:null,
+                                            executioncycle:null,
+                                        }
+                                    }
                                 }
                             ]
                             },
@@ -202,21 +219,38 @@ const root = new Vue({
                 this.menu[0].items = []
             }
             this.moals = {}
-            this.user_paras = {}
-            var that = this;
             // 载入模型算法信息
             $.post("/api/moals", {'username': this.user.loginname}, function (data, status) {
                 data = data['moals'];
+                let idToA={}
                 for (let model in data) {
                     let temp = [];
                     for (let al in data[model]) {
                         data[model][al].name = data[model][al].algorithm;
-                        $.post("/api/get_para_by_model_id", {'modelId': data[model][al].modelId}, function (da, status) {
-                            da = da['para']
-                            data[model][al].paraWeight = parseJson(da.paraWeight)
-                            data[model][al].id = da.id;
-                        })
-                        temp.push(data[model][al])
+                        if (data[model][al].algorithmPos === 0) {
+                            $.post("/api/get_para_by_model_id", {'modelId': data[model][al].modelId}, function (da, status) {
+                                da = da['para']
+                                data[model]['para'].paraWeight = parseJson(da.paraWeight)
+                            })
+                        } else {
+                            $.post("/api/get_para_by_model_id", {'modelId': data[model][al].modelId}, function (da, status) {
+                                if (da['para']===undefined||da['para']===null)return
+                                da = da['para']
+                                data[model][al].paraWeight = parseJson(da.paraWeight)
+                                data[model][al].id = da.id;
+                            })
+                        }
+                        if (data[model][al].algorithmPos !== 0) {
+                            data[model][al].op = function () {
+                                that.clickAl = data[model][al]
+                            }
+                            data[model][al].src='al'
+                            temp.push(data[model][al])
+                        }
+                        else {
+                            data[model]['para'] = data[model][al]
+                            data[model].pop(al)
+                        }
                     }
                     that.menu[0].items.push({
                         name: model,
@@ -225,30 +259,78 @@ const root = new Vue({
                     })
                 }
                 that.moals = data;
+                that.user_paras = {}
+
                 $.post("/api/user_paras", {'username': that.user.loginname}, function (data, status) {
                     data = data['paras']
+                    console.log(data)
                     for (let key in data) {
                         let p = data[key];
                         if (that.user_paras[p.modelId] === undefined) {
-                            that.user_paras[p.modelId] = []
+                            Vue.set(that.user_paras,p.modelId, [])
                         }
                         p.paraWeight = parseJson(p.paraWeight)
                         that.user_paras[p.modelId].push(p)
                     }
-                    t();
+                    for(let i in that.user_paras){
+
+                    }
+                    if (t!==null) t();
                 })
 
             })
-            // todo 载入ETL策略信息
-            $.post("/api/get_etl_strategy", {}, function (data, status) {
 
-            })
+            this.load('datasources')
+            this.load('strategys')
+
         },
         logout: function () {
             let that = this
             $.get("/logout", function (data, status) {
                 window.location.reload()
             })
+        },
+        load: function (type, callback = null) {
+            let that = this
+            if (type == 'datasources') {
+                $.post("/api/get_etl_datasource", {loginname: this.user.loginname}, function (data, staus) {
+                    that.datasources = data['datasources']
+                    if (callback !== null) {
+                        callback();
+                    }
+                })
+            } else if (type == 'strategys') {
+                $.post("/api/get_etl_strategy", {loginname: this.user.loginname}, function (data, status) {
+                    that.strategys = data['strategys']
+                    that.menu[2]['items'][0]['items']=[
+                        {
+                            name: '添加策略', src: 'etl_add', op: function () {
+                            that.strategyOpType = 'add'
+                            that.strategy={
+                                strategyname:null,
+                                extractresource:null,
+                                extratdetails:null,
+                                loadresource:null,
+                                loaddetails:null,
+                                executioncycle:null,
+                            }
+                        }
+                        }]
+                    for (let i = 0; i < that.strategys.length; i++) {
+                        that.strategys[i].name = that.strategys[i].strategyname
+                        that.strategys[i].src = 'etl_add'
+                        that.strategys[i].op = function () {
+                            that.strategyOpType = 'update'
+                            that.strategy = that.strategys[i]
+                            that.strategy.ed = JSON.parse(that.strategy.extratdetails)
+                        }
+                        that.menu[2]['items'][0]['items'].push(that.strategys[i])
+                    }
+                    if (callback !== null) {
+                        callback();
+                    }
+                })
+            }
         }
     }
 });

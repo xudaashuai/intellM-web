@@ -22,6 +22,7 @@ public class ModelAlgorithmServiceImpl implements ModelAlgorithmService{
     ModelAlgorithmMapper modelAlgorithmMapper;
     @Autowired
     AlgorithmService algorithmService;
+    // 返回所有模型
     public Map<Integer,String> getAllModel() {
         ModelAlgorithmExample modelAlgorithmExample=new ModelAlgorithmExample();
         Map<Integer,String>  result= new HashMap<Integer, String>();

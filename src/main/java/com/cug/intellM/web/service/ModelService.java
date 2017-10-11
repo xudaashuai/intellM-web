@@ -12,5 +12,10 @@ public interface ModelService
 	public boolean deleteModelAlgorithm(String Model_ID);
 	public boolean updateModelAlgorithm(ModelAlgorithm newModel);//��ָ��newModel��Model_ID
 	ModelAlgorithm getByModelID(String Model_ID);//����ָ��model_ID���㷨ģ��
-
+	// 添加模型
+	public boolean addModel(int userId,String model,String para);
+	// 删除模型
+	public boolean removeModel(int modelId);
+	// 修改模型
+	public boolean updateModel(int userId,int modelId,String para);
 }

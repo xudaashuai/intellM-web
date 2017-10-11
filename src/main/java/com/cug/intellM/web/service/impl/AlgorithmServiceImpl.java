@@ -198,8 +198,7 @@ public class AlgorithmServiceImpl implements AlgorithmService
 	{
 
 		AlgorithmParameterExample oneExample=new AlgorithmParameterExample();
-		oneExample.or().andUserIdEqualTo(User_ID);
-		oneExample.or().andIdEqualTo(theParameterID);
+		oneExample.createCriteria().andIdEqualTo(theParameterID);
 		try
 		{
 			theAlgorithmParameter.deleteByExample(oneExample);

@@ -58,7 +58,7 @@
                                                autocomplete="false">
                                         <span class="glyphicon glyphicon-user"
                                               title="" data-placement="top" data-toggle="tooltip"
-                                              data-original-title="Tooltip on top"></span>
+                                              :data-original-title="tooltips[0][0]"></span>
                                     </div>
                                     <div class="form-group help">
                                         <input type="password" class="form-control" placeholder="密　码"
@@ -68,8 +68,8 @@
                                                @keypress.enter="inputEnterPress(1)"
                                                autocomplete="off">
                                         <span class="glyphicon glyphicon-lock"
-                                              title="" data-placement="top" data-toggle="tooltip"
-                                              data-original-title="Tooltip on top"></span>
+                                              data-placement="top" data-toggle="tooltip"
+                                              :data-original-title="tooltips[0][1]"></span>
                                     </div>
                                     <div class="form-group">
                                         <div style="float: right">
@@ -77,6 +77,8 @@
                                             </button>
                                             <button class="btn btn-link" type="button" @click="signFlip(1)">注册</button>
                                             <button type="button" tabindex="3" class="btn btn-default"
+                                                    data-placement="top" data-toggle="tooltip"
+                                                    :data-original-title="tooltips[0][1]"
                                                     :disabled="!canLogin" id="login" @click="submit('login')">{{isLogining?'登录中':'登录'}}
                                             </button>
                                         </div>
